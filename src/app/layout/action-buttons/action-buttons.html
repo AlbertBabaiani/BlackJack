@@ -8,7 +8,8 @@
 
     @for(chip of chips(); track $index){
 
-    <button type="button" class="chips">{{ chip }}</button>
+    <app-chip [value]="chip" />
+
     }
   </div>
 </footer>

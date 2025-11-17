@@ -1,11 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { Card } from '../../shared/components/card/card';
 import { CoreService } from '../../core/services/core-service';
-import { Chip } from '../../shared/components/chip/chip';
 
 @Component({
   selector: 'app-card-table',
-  imports: [Card, Chip],
+  imports: [Card],
   templateUrl: './card-table.html',
   styleUrl: './card-table.scss',
 })

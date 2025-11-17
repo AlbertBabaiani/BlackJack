@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-chip',
@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './chip.scss',
 })
 export class Chip {
-
+  value = input.required<string>();
 }

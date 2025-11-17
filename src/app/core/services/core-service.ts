@@ -7,7 +7,6 @@ import { Card } from '../../shared/models/Card';
 export class CoreService {
   private readonly Suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
   private readonly Ranks = ['A', 'K', 'Q', 'J', '10', '9', '8', '7', '6', '5', '4', '3', '2'];
-  // private readonly Ranks = ['10', '9', '8', '7', '6', '5', '4', '3', '2'];
 
   private _cards = signal<Card[]>([]);
   readonly cards = this._cards.asReadonly();

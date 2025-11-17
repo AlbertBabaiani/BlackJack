@@ -1,6 +1,41 @@
 $size: 6rem;
-$green-primary: rgb(100, 150, 100);
-$green-secondary: rgb(60, 90, 60);
+$chip-types: (
+  '50': (
+    #f0f0f0,
+    #333,
+  ),
+  // White/Grey (Low value)
+  '100':
+    (
+      #d9534f,
+      #fff,
+    ),
+  // Red
+  '200':
+    (
+      #5cb85c,
+      #fff,
+    ),
+  // Green (Your original)
+  '500':
+    (
+      #292929,
+      #fff,
+    ),
+  // Black
+  '1K':
+    (
+      #800080,
+      #fff,
+    ),
+  // Purple
+  '2K':
+    (
+      #f0ad4e,
+      #fff,
+    )
+    // Orange/Gold,,,,,,,,,,,,,,,,,
+);
 
 .table-surface {
   perspective: 800px;
@@ -8,14 +43,14 @@ $green-secondary: rgb(60, 90, 60);
   justify-content: center;
   padding: 50px;
 }
-.chip {
-  background: radial-gradient(circle at 30% 30%, $green-primary, $green-secondary);
 
+.chip {
   width: $size;
   aspect-ratio: 1;
   border-radius: 100vmax;
 
   color: #fff;
+  font-size: 1.2rem;
   font-weight: bold;
   text-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
 
@@ -24,21 +59,34 @@ $green-secondary: rgb(60, 90, 60);
   align-items: center;
 
   cursor: pointer;
+  user-select: none;
 
   border: 10px solid rgba(255, 255, 255, 0.7);
-  outline: 6px dashed rgb(60, 90, 60);
   outline-offset: -6px;
 
-  transform: rotateX(45deg);
   transform-style: preserve-3d;
-
   transform: rotateX(40deg);
-  box-shadow: 0 8px 0 rgb(30, 50, 30), 0 20px 20px rgba(0, 0, 0, 0.4);
 
   transition: all 0.3s;
 
   &:hover {
     transform: rotateX(45deg) translateY(-10px);
     box-shadow: 0 10px 0 rgb(30, 50, 30), 0 40px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  @each $value, $colors in $chip-types {
+    $bg: nth($colors, 1);
+    $text: nth($colors, 2);
+
+    &.chip-#{$value} {
+      background-color: $bg;
+      outline: 6px dashed $bg;
+      color: $text;
+      box-shadow: 0 8px 0 mix(black, $bg, 70%), 0 20px 20px rgba(0, 0, 0, 0.4);
+
+      @if $value == '50' {
+        border-color: #ccc;
+      }
+    }
   }
 }
