@@ -1,0 +1,16 @@
+<div class="card">
+  <div class="card-content">
+    <div class="card-details">
+      <span>{{ rank() }}</span>
+      <span>
+        @switch (suit()) { @case ('Clubs') {♣} @case ('Hearts') {♥} @case ('Diamonds') {♦} @case
+        ('Spades') {♠} }
+      </span>
+    </div>
+
+    <div class="card-details">
+      <span>{{ rank() }}</span>
+      <span>♠</span>
+    </div>
+  </div>
+</div>

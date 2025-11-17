@@ -1,0 +1,38 @@
+footer {
+  padding-block: 2rem;
+  background: rgb(173, 133, 133);
+}
+
+button {
+  color: #fff;
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+
+  width: 90%;
+  max-width: 40rem;
+  margin-inline: auto;
+
+  .action-button {
+    background: rgb(124, 83, 83);
+
+    padding-block: 0.75rem;
+    border-radius: 100vmax;
+    border: none;
+
+    width: 20%;
+  }
+}
+
+.chips {
+  background: rgb(79, 119, 79);
+  width: 5rem;
+  aspect-ratio: 1;
+  border-radius: 100vmax;
+  border: 5px solid #fff;
+  font-weight: bold;
+}
