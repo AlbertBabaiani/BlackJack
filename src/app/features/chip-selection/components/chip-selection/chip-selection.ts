@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Chip } from '../../../../shared/components/chip/chip';
-import { ChipsService } from '../../../../core/services/chips-service';
 import { ChipType } from '../../../../shared/models/Chips';
+import { ChipSelectionService } from '../../services/chip-selection-service';
 
 @Component({
   selector: 'app-chip-selection',
@@ -10,11 +10,11 @@ import { ChipType } from '../../../../shared/models/Chips';
   styleUrl: './chip-selection.scss',
 })
 export class ChipSelection {
-  private chipService = inject(ChipsService);
+  private service = inject(ChipSelectionService);
 
-  chips = this.chipService.chips;
+  chips = this.service.chips;
 
   selectChip(chipValue: ChipType): void {
-    this.chipService.selectChip(chipValue);
+    this.service.selectChip(chipValue);
   }
 }

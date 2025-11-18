@@ -4,7 +4,7 @@ import { Deck } from './deck';
 import { GameState } from './game-state';
 import { CardStates } from './card-states';
 import { ChipsService } from './chips-service';
-import { User } from './user';
+import { Player } from './player';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class CoreService {
   private gameState = inject(GameState);
   private cardStates = inject(CardStates);
   private chipsService = inject(ChipsService);
-  private user = inject(User);
+  private player = inject(Player);
 
   initGame() {
     this.gameState.initGame();
@@ -24,10 +24,10 @@ export class CoreService {
 
   startGame() {
     if (this.chipsService.selectedChipsSum() === 0) return;
-    if (this.user.money() <= 0) return;
+    if (this.player.money() <= 0) return;
 
     this.gameState.startGame();
-    this.user.subtract(this.chipsService.selectedChipsSum());
+    this.player.subtract(this.chipsService.selectedChipsSum());
 
     const cards = this.deckService.drawFromShoe(4);
 
@@ -47,7 +47,7 @@ export class CoreService {
 
     if (playerSum === 21) {
       console.log('BlackJack! You Win!');
-      this.user.add(this.chipsService.selectedChipsSum() * 1.5);
+      this.player.add(this.chipsService.selectedChipsSum() * 1.5);
       return;
     }
   }
@@ -58,6 +58,13 @@ export class CoreService {
     if (card.length < 1) return;
 
     this.cardStates.addPlayerCard(card[0]);
+
+    const playerSum = this.cardStates.playerSum();
+
+    if (playerSum > 21) {
+      console.log('YOU LOSE! MORE THAN 21');
+      this.gameState.endGame();
+    }
   }
 
   // playerHit() {

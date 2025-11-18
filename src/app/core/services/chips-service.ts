@@ -1,13 +1,13 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { CHIP_VALUES, ChipType } from '../../shared/models/Chips';
-import { User } from './user';
+import { Player } from './player';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChipsService {
-  private user = inject(User);
-  private userMoney = this.user.money;
+  private player = inject(Player);
+  private playerMoney = this.player.money;
 
   private _chips = signal<ChipType[]>(CHIP_VALUES);
   readonly chips = this._chips.asReadonly();
@@ -25,7 +25,7 @@ export class ChipsService {
 
   selectChip(chipValue: ChipType) {
     const newSum = this.selectedChipsSum() + chipValue.value;
-    if (newSum > this.userMoney()) return;
+    if (newSum > this.playerMoney()) return;
     this._selectedChips.update((chips) => [...chips, chipValue]);
   }
 

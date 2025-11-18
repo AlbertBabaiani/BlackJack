@@ -3,7 +3,7 @@ import { Injectable, signal } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class User {
+export class Player {
   private _money = signal<number>(2000);
   readonly money = this._money.asReadonly();
 
