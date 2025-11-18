@@ -1,5 +1,9 @@
 <div class="shell">
   <app-top-bar />
   <app-card-table />
-  <app-action-buttons />
+  <app-bottom-panel />
 </div>
+
+@if(!gameInitialized()){
+<app-game-dialog />
+}

@@ -1,0 +1,21 @@
+.container {
+  width: 90%;
+  max-width: 40rem;
+  margin-inline: auto;
+
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    width: 20%;
+    height: 3rem;
+    border-radius: 1rem;
+    border: none;
+    background: rgb(228, 190, 109);
+    cursor: pointer;
+
+    &:hover {
+      background: rgb(196, 163, 93);
+    }
+  }
+}

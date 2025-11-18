@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { CoreService } from '../../core/services/core-service';
 import { CurrencyPipe } from '@angular/common';
+import { User } from '../../core/services/user';
 
 @Component({
   selector: 'app-top-bar',
@@ -9,6 +9,6 @@ import { CurrencyPipe } from '@angular/common';
   styleUrl: './top-bar.scss',
 })
 export class TopBar {
-  private coreService = inject(CoreService);
-  playerMoney = this.coreService.playerMoney;
+  private user = inject(User);
+  money = this.user.money;
 }

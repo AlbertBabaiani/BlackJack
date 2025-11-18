@@ -1,0 +1,21 @@
+<div class="cards dealer-cards">
+  @for(card of dealerCards(); track $index){
+  <app-card [suit]="card.suit" [rank]="card.rank" />
+  }
+  <div class="values-sum-container">
+    <span>
+      {{ dealerSum() }}
+    </span>
+  </div>
+</div>
+
+<div class="cards player-cards">
+  @for(card of playerCards(); track $index){
+  <app-card [suit]="card.suit" [rank]="card.rank" />
+  }
+  <div class="values-sum-container">
+    <span>
+      {{ playerSum() }}
+    </span>
+  </div>
+</div>

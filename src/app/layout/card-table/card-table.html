@@ -1,29 +1,17 @@
 <main class="table">
-  <div class="cards dealer-cards">
-    @if(gameInProgress()){
-    <!--  -->
-    @for(card of dealerCards(); track $index){
-    <app-card [suit]="card.suit" [rank]="card.rank" />
-    }
-    <div class="values-sum-container">
-      <span>
-        {{ dealerSum() }}
-      </span>
-    </div>
-    }
-  </div>
+  @if(gameInitialized()){
 
-  <div class="cards player-cards">
-    @if(gameInProgress()){
-    <!--  -->
-    @for(card of playerCards(); track $index){
-    <app-card [suit]="card.suit" [rank]="card.rank" />
-    }
-    <div class="values-sum-container">
-      <span>
-        {{ playerSum() }}
-      </span>
-    </div>
-    }
-  </div>
+  <!--  -->
+
+  @if(!gameInProgress()){
+  <app-selected-chips />
+  }
+
+  <!--  -->
+
+  @else{
+  <app-main />
+  }
+  <!--  -->
+  }
 </main>

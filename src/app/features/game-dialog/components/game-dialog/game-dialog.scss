@@ -1,0 +1,15 @@
+.overlay {
+  position: absolute;
+  inset: 0;
+
+  z-index: 10001;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  font-size: 3rem;
+  padding: 2rem;
+}
