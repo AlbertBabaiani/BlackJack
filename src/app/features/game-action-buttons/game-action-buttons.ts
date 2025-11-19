@@ -17,4 +17,8 @@ export class GameActionButtons {
   stand(): void {
     this.coreService.stand();
   }
+
+  double(): void {
+    this.coreService.double();
+  }
 }

@@ -29,6 +29,16 @@ export class Player {
     this.subtract(bid);
   }
 
+  doubleBid() {
+    if (this._money() - this._bid() < 0) return false;
+
+    console.log(this.money(), this._bid());
+    this.subtract(this._bid());
+    this._bid.update((bid) => bid * 2);
+    console.log(this.money(), this._bid());
+    return true;
+  }
+
   win(): void {
     this.add(this._bid() * 2);
   }

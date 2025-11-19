@@ -67,6 +67,18 @@ export class CardStates {
     return null;
   }
 
+  double(card: Card): GameResult {
+    if (this.playerSum() > 21) return GameResult.Lose;
+
+    this._playerCards.update((arr) => [...arr, card]);
+
+    if (this.playerSum() > 21) {
+      return GameResult.Lose;
+    } else {
+      return GameResult.Win;
+    }
+  }
+
   resetCards() {
     this._playerCards.set([]);
     this._dealerCards.set([]);

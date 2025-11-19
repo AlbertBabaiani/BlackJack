@@ -19,6 +19,8 @@ export class CoreService {
   private player = inject(Player);
   private message = inject(GameMessageService);
 
+  private controlsBlocked = signal<boolean>(false);
+
   initGame() {
     this.gameState.initGame();
   }
@@ -40,6 +42,7 @@ export class CoreService {
   }
 
   playerHit() {
+    if (this.controlsBlocked()) return;
     if (this.cardStates.playerSum() >= 21) return;
 
     const card = this.deckService.drawFromShoe(1);
@@ -49,6 +52,32 @@ export class CoreService {
     const moveResult = this.cardStates.addPlayerCard(card[0]);
 
     if (moveResult === GameResult.Lose) {
+      this.endGame(moveResult);
+      return;
+    }
+  }
+
+  double(): void {
+    if (this.controlsBlocked()) return;
+    this.controlsBlocked.set(true);
+
+    const bid = this.player.bid();
+    const money = this.player.money();
+
+    if (bid > money) return;
+
+    const response = this.player.doubleBid();
+    if (!response) return;
+
+    const card = this.deckService.drawFromShoe(1);
+    if (card.length < 1) return;
+
+    const moveResult = this.cardStates.double(card[0]);
+
+    if (moveResult === GameResult.Lose) {
+      this.endGame(moveResult);
+      return;
+    } else {
       this.endGame(moveResult);
       return;
     }
@@ -75,8 +104,11 @@ export class CoreService {
   }
 
   stand(): void {
+    if (this.controlsBlocked()) return;
     const playerSum = this.cardStates.playerSum;
     const dealerSum = this.cardStates.dealerSum;
+
+    this.controlsBlocked.set(true);
 
     if (dealerSum() <= 16) {
       const moveResult = this.dealerHit();
@@ -99,6 +131,8 @@ export class CoreService {
   }
 
   private endGame(result: GameResult): void {
+    this.controlsBlocked.set(true);
+
     if (result === GameResult.Lose) {
       this.message.setMessage(result, this.player.bid());
     } else if (result === GameResult.Push) {
@@ -116,6 +150,7 @@ export class CoreService {
       this.message.clearMessage();
       this.player.resetBid();
       this.cardStates.resetCards();
+      this.controlsBlocked.set(false);
       this.gameState.initGame();
     }, 2000);
   }
