@@ -39,6 +39,10 @@ export class Player {
     return true;
   }
 
+  removeDoubled() {
+    this._bid.update((val) => val / 2);
+  }
+
   win(): void {
     this.add(this._bid() * 2);
   }

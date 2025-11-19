@@ -75,10 +75,10 @@ export class CoreService {
     const moveResult = this.cardStates.double(card[0]);
 
     if (moveResult === GameResult.Lose) {
-      this.endGame(moveResult);
+      this.endGame(moveResult, true);
       return;
     } else {
-      this.endGame(moveResult);
+      this.endGame(moveResult, true);
       return;
     }
   }
@@ -94,12 +94,10 @@ export class CoreService {
 
       const moveResult = this.cardStates.addDealerCard(card[0]);
       if (moveResult === GameResult.Win) {
-        this.endGame(GameResult.Win);
         return GameResult.Win;
       }
     }
 
-    this.endGame(GameResult.Lose);
     return GameResult.Lose;
   }
 
@@ -130,7 +128,8 @@ export class CoreService {
     }
   }
 
-  private endGame(result: GameResult): void {
+  private endGame(result: GameResult, doubled?: boolean): void {
+    console.log(this.player.money(), this.player.bid());
     this.controlsBlocked.set(true);
 
     if (result === GameResult.Lose) {
@@ -151,6 +150,8 @@ export class CoreService {
       this.player.resetBid();
       this.cardStates.resetCards();
       this.controlsBlocked.set(false);
+
+      if (doubled) this.player.removeDoubled();
       this.gameState.initGame();
     }, 2000);
   }
