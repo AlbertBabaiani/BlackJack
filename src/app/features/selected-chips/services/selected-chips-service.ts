@@ -23,6 +23,11 @@ export class SelectedChipsService {
     if (this.chipsService.selectedChipsSum() <= 0) return;
 
     this.player.placeBid(this.chipsSum());
+    // this.chipsService.clearSelectedChips();
     this.coreService.startGame();
+  }
+
+  resetMoney() {
+    this.player.resetMoney();
   }
 }

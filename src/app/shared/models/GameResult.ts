@@ -5,9 +5,9 @@ export enum GameResult {
   Win,
 }
 
-export type GameMessages = {
-  0: 'You Lose!';
-  1: 'Push!';
-  2: 'BlackJack! You Won!';
-  3: 'You Won!';
+export const GameMessages = {
+  0: 'You Lost!',
+  1: 'Push!',
+  2: 'BlackJack! You Won!',
+  3: 'You Won!',
 };

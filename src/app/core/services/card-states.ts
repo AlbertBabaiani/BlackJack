@@ -66,4 +66,9 @@ export class CardStates {
 
     return null;
   }
+
+  resetCards() {
+    this._playerCards.set([]);
+    this._dealerCards.set([]);
+  }
 }

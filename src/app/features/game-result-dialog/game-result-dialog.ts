@@ -1,17 +1,15 @@
-import { Component, signal } from '@angular/core';
-import { GameResult } from '../../shared/models/GameResult';
+import { Component, inject } from '@angular/core';
+import { GameMessageService } from '../../core/services/game-message-service';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-game-result-dialog',
-  imports: [],
+  imports: [CurrencyPipe],
   templateUrl: './game-result-dialog.html',
   styleUrl: './game-result-dialog.scss',
 })
 export class GameResultDialog {
-  private _message = signal<string | null>(null);
-  readonly message = this._message.asReadonly();
-
-  setMessage(gameResult: GameResult): void {
-    this._message.set('');
-  }
+  private service = inject(GameMessageService);
+  message = this.service.message;
+  bid = this.service.bid;
 }

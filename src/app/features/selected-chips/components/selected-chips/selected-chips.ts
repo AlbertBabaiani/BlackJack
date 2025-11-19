@@ -22,11 +22,16 @@ export class SelectedChips {
   });
 
   chipsSum = this.service.chipsSum;
+
   clearChips(): void {
     this.service.clearChips();
   }
 
   startGame(): void {
     this.service.startGame();
+  }
+
+  resetMoney(): void {
+    this.service.resetMoney();
   }
 }

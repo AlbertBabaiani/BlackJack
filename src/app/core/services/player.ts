@@ -4,7 +4,9 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class Player {
-  private _money = signal<number>(2000);
+  private startingMoney: number = 2000;
+
+  private _money = signal<number>(this.startingMoney);
   readonly money = this._money.asReadonly();
 
   private _bid = signal<number>(0);
@@ -37,5 +39,13 @@ export class Player {
 
   blackJack(): void {
     this.add(this._bid() * 1.5);
+  }
+
+  resetBid(): void {
+    this._bid.set(0);
+  }
+
+  resetMoney(): void {
+    this._money.set(this.startingMoney);
   }
 }

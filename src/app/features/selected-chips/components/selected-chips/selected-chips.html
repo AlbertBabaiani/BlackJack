@@ -8,5 +8,6 @@
   <div class="action-buttons">
     <button type="button" (click)="clearChips()">Clear</button>
     <button type="button" [disabled]="!chips().length" (click)="startGame()">Accept</button>
+    {{ chipsSum() }}
   </div>
 </section>

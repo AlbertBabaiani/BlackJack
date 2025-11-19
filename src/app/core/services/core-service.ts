@@ -5,6 +5,7 @@ import { GameState } from './game-state';
 import { CardStates } from './card-states';
 import { Player } from './player';
 import { GameResult } from '../../shared/models/GameResult';
+import { GameMessageService } from './game-message-service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,7 @@ export class CoreService {
   private gameState = inject(GameState);
   private cardStates = inject(CardStates);
   private player = inject(Player);
+  private message = inject(GameMessageService);
 
   initGame() {
     this.gameState.initGame();
@@ -31,10 +33,9 @@ export class CoreService {
     const initialResult = this.cardStates.setInitialCards(cards);
 
     if (initialResult === GameResult.BlackJack) {
-      console.log('You win!');
-      this.player.blackJack();
+      this.endGame(GameResult.BlackJack);
     } else if (initialResult === GameResult.Lose) {
-      console.log('You Lose! BlackJack');
+      this.endGame(GameResult.Lose);
     }
   }
 
@@ -48,7 +49,7 @@ export class CoreService {
     const moveResult = this.cardStates.addPlayerCard(card[0]);
 
     if (moveResult === GameResult.Lose) {
-      console.log('YOU LOSE! MORE THAN 21');
+      this.endGame(moveResult);
       return;
     }
   }
@@ -64,12 +65,12 @@ export class CoreService {
 
       const moveResult = this.cardStates.addDealerCard(card[0]);
       if (moveResult === GameResult.Win) {
-        console.log('You Win!');
+        this.endGame(GameResult.Win);
         return GameResult.Win;
       }
     }
 
-    console.log('You Lose!');
+    this.endGame(GameResult.Lose);
     return GameResult.Lose;
   }
 
@@ -81,7 +82,7 @@ export class CoreService {
       const moveResult = this.dealerHit();
 
       if (moveResult === GameResult.Win) {
-        this.player.win();
+        this.endGame(GameResult.Win);
         return;
       }
     }
@@ -89,27 +90,33 @@ export class CoreService {
     console.log(playerSum(), dealerSum());
 
     if (playerSum() > dealerSum()) {
-      console.log('You Win!');
-      this.player.win();
+      this.endGame(GameResult.Win);
     } else if (playerSum() < dealerSum()) {
-      console.log('You Lose!');
+      this.endGame(GameResult.Lose);
     } else {
-      console.log('Push');
-      this.player.push();
+      this.endGame(GameResult.Push);
     }
   }
 
-  // resetValues(): void {
-  //   this._playerCards.set([]);
-  //   this._dealerCards.set([]);
-  //   this._canSplit.set(false);
-  // }
+  private endGame(result: GameResult): void {
+    if (result === GameResult.Lose) {
+      this.message.setMessage(result, this.player.bid());
+    } else if (result === GameResult.Push) {
+      this.player.push();
+      this.message.setMessage(result, this.player.bid());
+    } else if (result === GameResult.BlackJack) {
+      this.message.setMessage(result, this.player.bid() * 1.5);
+      this.player.blackJack();
+    } else if (result === GameResult.Win) {
+      this.player.win();
+      this.message.setMessage(result, this.player.bid() * 2);
+    }
+
+    setTimeout(() => {
+      this.message.clearMessage();
+      this.player.resetBid();
+      this.cardStates.resetCards();
+      this.gameState.initGame();
+    }, 2000);
+  }
 }
-
-/*
-Width: 150px - 200px
-
-Height: 210px - 280px (maintaining a 7:10 aspect ratio, common for playing cards)
-
-Example: 175px (width) x 245px (height)
-*/

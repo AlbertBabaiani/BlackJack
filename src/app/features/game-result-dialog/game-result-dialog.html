@@ -1,6 +1,10 @@
+@if(message()){
+
 <div class="shell">
-  <section>
-    <h1>You Win!</h1>
-    <h3>100$</h3>
+  <section class="container" [style.background]="message() === 'You Won!' ? 'green' : 'red'">
+    <h1>{{ message() }}</h1>
+    <h3>{{ bid() | currency }}</h3>
   </section>
 </div>
+
+}
