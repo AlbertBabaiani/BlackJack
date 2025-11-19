@@ -39,6 +39,8 @@ export class CoreService {
   }
 
   playerHit() {
+    if (this.cardStates.playerSum() >= 21) return;
+
     const card = this.deckService.drawFromShoe(1);
 
     if (card.length < 1) return;

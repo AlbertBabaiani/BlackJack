@@ -1,9 +1,17 @@
+{{ state() }}
+
 <div class="shell">
+  @if(state() !== 0){
   <app-top-bar />
+
   <app-card-table />
+
   <app-bottom-panel />
+  }
 </div>
 
-@if(!gameInitialized()){
+@if(state() === 0){
 <app-game-dialog />
 }
+
+<app-game-result-dialog />

@@ -1,9 +1,5 @@
 <main class="table">
-  @if(gameInitialized()){
-
-  <!--  -->
-
-  @if(!gameInProgress()){
+  @if(state() === 1){
   <app-selected-chips />
   }
 
@@ -11,7 +7,5 @@
 
   @else{
   <app-main />
-  }
-  <!--  -->
   }
 </main>

@@ -10,8 +10,7 @@ import { Main } from '../../features/main/components/main/main';
   styleUrl: './card-table.scss',
 })
 export class CardTable {
-  private gameState = inject(GameState);
+  private stateService = inject(GameState);
 
-  gameInitialized = this.gameState.gameInitialized;
-  gameInProgress = this.gameState.gameInProgress;
+  state = this.stateService.gameState;
 }

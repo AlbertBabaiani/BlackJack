@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CoreService } from '../../../../core/services/core-service';
+import { CoreService } from '../../core/services/core-service';
 
 @Component({
   selector: 'app-game-dialog',

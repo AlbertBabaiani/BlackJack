@@ -1,14 +1,9 @@
 <footer>
-  @if(gameInitialized()){
-
-  <!--  -->
-  @if(!gameStarted()){
+  @if(state() === 1){
   <app-chip-selection />
   }
   <!--  -->
-  @if(gameStarted()){
+  @if(state() === 2){
   <app-game-action-buttons />
-  }
-  <!--  -->
   }
 </footer>
