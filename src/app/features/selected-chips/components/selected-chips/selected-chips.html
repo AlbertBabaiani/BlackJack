@@ -1,13 +1,12 @@
 <section class="container">
   <div class="chips-stack">
-    @for(chip of selectedChips(); track `${$index}-${chip}`){
+    @for(chip of chips(); track `${$index}-${chip}`){
     <app-chip class="chip" [style.--x]="chip.posX" [style.--y]="chip.posY" [value]="chip.label" />
     }
   </div>
 
   <div class="action-buttons">
     <button type="button" (click)="clearChips()">Clear</button>
-    <button type="button" [disabled]="!selectedChips().length" (click)="startGame()">Accept</button>
-    {{ selectedChipSum() }}
+    <button type="button" [disabled]="!chips().length" (click)="startGame()">Accept</button>
   </div>
 </section>

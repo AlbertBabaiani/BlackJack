@@ -13,4 +13,8 @@ export class GameActionButtons {
   hit(): void {
     this.coreService.playerHit();
   }
+
+  stand(): void {
+    this.coreService.stand();
+  }
 }

@@ -3,8 +3,8 @@ import { Card } from '../../shared/models/Card';
 import { Deck } from './deck';
 import { GameState } from './game-state';
 import { CardStates } from './card-states';
-import { ChipsService } from './chips-service';
 import { Player } from './player';
+import { GameResult } from '../../shared/models/GameResult';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,6 @@ export class CoreService {
 
   private gameState = inject(GameState);
   private cardStates = inject(CardStates);
-  private chipsService = inject(ChipsService);
   private player = inject(Player);
 
   initGame() {
@@ -23,32 +22,19 @@ export class CoreService {
   }
 
   startGame() {
-    if (this.chipsService.selectedChipsSum() === 0) return;
-    if (this.player.money() <= 0) return;
+    if (this.player.money() < 0 || this.player.bid() <= 0) return;
 
     this.gameState.startGame();
-    this.player.subtract(this.chipsService.selectedChipsSum());
 
     const cards = this.deckService.drawFromShoe(4);
 
-    this.cardStates.setInitialCards(cards);
-    this.checkInitialCards([cards[0], cards[2]], [cards[1], cards[3]]);
-  }
+    const initialResult = this.cardStates.setInitialCards(cards);
 
-  private checkInitialCards(playerCards: Card[], dealerCards: Card[]) {
-    const dealerSum = dealerCards.reduce((prev, next) => prev + next.value, 0);
-
-    if (dealerSum === 21) {
-      console.log('You lose!');
-      return;
-    }
-
-    const playerSum = playerCards.reduce((prev, next) => prev + next.value, 0);
-
-    if (playerSum === 21) {
-      console.log('BlackJack! You Win!');
-      this.player.add(this.chipsService.selectedChipsSum() * 1.5);
-      return;
+    if (initialResult === GameResult.BlackJack) {
+      console.log('You win!');
+      this.player.blackJack();
+    } else if (initialResult === GameResult.Lose) {
+      console.log('You Lose! BlackJack');
     }
   }
 
@@ -57,42 +43,59 @@ export class CoreService {
 
     if (card.length < 1) return;
 
-    this.cardStates.addPlayerCard(card[0]);
+    const moveResult = this.cardStates.addPlayerCard(card[0]);
 
-    const playerSum = this.cardStates.playerSum();
-
-    if (playerSum > 21) {
+    if (moveResult === GameResult.Lose) {
       console.log('YOU LOSE! MORE THAN 21');
-      this.gameState.endGame();
+      return;
     }
   }
 
-  // playerHit() {
-  //   const cards = this.drawFromShoe(4);
+  private dealerHit(): GameResult | null {
+    const playerSum = this.cardStates.playerSum;
+    const dealerSum = this.cardStates.dealerSum;
 
-  //   if (cards.length < 1) return;
+    while ((dealerSum() < playerSum() || dealerSum() <= 16) && dealerSum() <= 21) {
+      const card = this.deckService.drawFromShoe(1);
 
-  //   this._playerCards.update((val) => [...val, cards[0]]);
-  // }
+      if (card.length < 1) return null;
 
-  // private dealerHit() {
-  //   while (
-  //     (this.dealerSum() < this.playerSum() || this.dealerSum() <= 16) &&
-  //     this.dealerSum() <= 21
-  //   ) {
-  //     const cards = this.drawFromShoe(4);
+      const moveResult = this.cardStates.addDealerCard(card[0]);
+      if (moveResult === GameResult.Win) {
+        console.log('You Win!');
+        return GameResult.Win;
+      }
+    }
 
-  //     if (cards.length < 1) return;
+    console.log('You Lose!');
+    return GameResult.Lose;
+  }
 
-  //     this._dealerCards.update((val) => [...val, cards[0]]);
-  //   }
-  // }
+  stand(): void {
+    const playerSum = this.cardStates.playerSum;
+    const dealerSum = this.cardStates.dealerSum;
 
-  // stand() {
-  //   if (this.dealerSum() <= 16) {
-  //     this.dealerHit();
-  //   }
-  // }
+    if (dealerSum() <= 16) {
+      const moveResult = this.dealerHit();
+
+      if (moveResult === GameResult.Win) {
+        this.player.win();
+        return;
+      }
+    }
+
+    console.log(playerSum(), dealerSum());
+
+    if (playerSum() > dealerSum()) {
+      console.log('You Win!');
+      this.player.win();
+    } else if (playerSum() < dealerSum()) {
+      console.log('You Lose!');
+    } else {
+      console.log('Push');
+      this.player.push();
+    }
+  }
 
   // resetValues(): void {
   //   this._playerCards.set([]);

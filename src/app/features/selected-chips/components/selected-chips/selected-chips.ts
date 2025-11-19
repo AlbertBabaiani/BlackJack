@@ -1,6 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { Chip } from '../../../../shared/components/chip/chip';
 import { ChipsService } from '../../../../core/services/chips-service';
+import { SelectedChipsService } from '../../services/selected-chips-service';
 
 @Component({
   selector: 'app-selected-chips',
@@ -9,23 +10,23 @@ import { ChipsService } from '../../../../core/services/chips-service';
   styleUrl: './selected-chips.scss',
 })
 export class SelectedChips {
-  private chipService = inject(ChipsService);
+  private service = inject(SelectedChipsService);
 
-  selectedChips = computed(() => {
-    return this.chipService.selectedChips().map((chip, index) => {
+  chips = computed(() => {
+    return this.service.chips().map((chip, index) => {
       const posX = Math.floor(Math.random() * 9) + 1;
       const posY = index * 6;
 
       return { ...chip, posX, posY };
     });
   });
-  selectedChipSum = this.chipService.selectedChipsSum;
 
+  chipsSum = this.service.chipsSum;
   clearChips(): void {
-    this.chipService.clearSelectedChips();
+    this.service.clearChips();
   }
 
   startGame(): void {
-    this.coreService.startGame();
+    this.service.startGame();
   }
 }
