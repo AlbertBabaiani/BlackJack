@@ -1,4 +1,4 @@
-<section class="container">
+<section class="chips">
   @for(chip of chips(); track $index){
 
   <app-chip (click)="selectChip(chip)" [value]="chip.label" />

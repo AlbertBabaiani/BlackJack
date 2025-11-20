@@ -1,0 +1,27 @@
+<footer>
+  <div class="container">
+    @if(state() === 1){
+    <app-chip-selection />
+    }
+    <!--  -->
+    @if(state() === 2){
+    <app-game-action-buttons />
+    }
+  </div>
+
+  <div class="player-stats">
+    <section class="stat-section stat-header">
+      <span class="stat player-stats-label"> Balance </span>
+      <span class="stat player-stats-label"> Bid </span>
+    </section>
+
+    <section class="stat-section stat-header">
+      <span class="stat player-stats-value">
+        {{ money() | currency : 'USD' : 'symbol' : '1.0-0' }}
+      </span>
+      <span class="stat player-stats-value">
+        {{ bid() | currency : 'USD' : 'symbol' : '1.0-0' }}
+      </span>
+    </section>
+  </div>
+</footer>

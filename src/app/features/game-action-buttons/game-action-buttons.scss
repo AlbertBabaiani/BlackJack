@@ -1,10 +1,7 @@
-.container {
-  width: 90%;
-  max-width: 40rem;
-  margin-inline: auto;
-
+.action-buttons {
   display: flex;
   justify-content: space-between;
+  width: 100%;
 
   button {
     width: 20%;

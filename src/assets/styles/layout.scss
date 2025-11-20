@@ -1,0 +1,17 @@
+.main-container {
+  background-image: url(/assets/images/layout/game-table.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  display: grid;
+  grid-template-rows: 1fr auto;
+
+  height: 100vh;
+  height: 100dvh;
+}
+
+.container {
+  width: 42rem;
+  margin-inline: auto;
+}

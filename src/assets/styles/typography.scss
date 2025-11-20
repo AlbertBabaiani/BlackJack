@@ -1,0 +1,59 @@
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('/assets/fonts/Playfair.ttf') format('truetype-variations');
+  font-weight: 400 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('/assets/fonts/Playfair-Italic.ttf') format('truetype-variations');
+  font-weight: 400 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Stack Sans';
+  src: url('/assets/fonts/StackSans.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+:root {
+  --font-primary: 'Stack Sans', sans-serif;
+  --font-display: 'Playfair Display', serif;
+
+  --text-xs: 0.8rem;
+  --text-sm: 0.9rem;
+  --text-base: 1rem;
+  --text-md: 1.25rem;
+  --text-lg: 1.6rem;
+  --text-xl: 2rem;
+  --text-2xl: 2.4rem;
+  --text-3xl: 3rem;
+  --text-4xl: 3.8rem;
+
+  --weight-thin: 100;
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+  --weight-black: 900;
+}
+
+.player-stats {
+  &-label,
+  &-value {
+    font-family: var(--font-display);
+  }
+
+  &-label {
+    font-size: var(--text-lg);
+  }
+
+  &-value {
+    font-size: var(--text-md);
+  }
+}

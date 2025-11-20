@@ -1,9 +1,6 @@
-.container {
+.chips {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 1rem;
-
-  width: 90%;
-  max-width: 50rem;
-  margin-inline: auto;
 }

@@ -1,0 +1,33 @@
+footer {
+  height: 8.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(/assets/images/layout/wooden-table.png);
+  box-shadow: 0 -6px 10px 6px rgba(0, 0, 0, 0.3);
+
+  position: relative;
+}
+
+.player-stats {
+  background-image: url(/assets/images/utilities/gold-texture.jpg);
+  padding: var(--space-3) var(--space-7);
+  border-radius: var(--radius-lg);
+
+  position: absolute;
+  bottom: 100%;
+  transform: translateY(18%);
+}
+
+.stat-section {
+  display: flex;
+  gap: var(--space-2);
+
+  &:first-child {
+    margin-bottom: var(--space-2);
+  }
+}
+
+.stat {
+  width: 12rem;
+}
