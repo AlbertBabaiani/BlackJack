@@ -4,7 +4,7 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class Player {
-  private startingMoney: number = 2000;
+  private startingMoney: number = 20000;
 
   private _money = signal<number>(this.startingMoney);
   readonly money = this._money.asReadonly();
@@ -32,10 +32,8 @@ export class Player {
   doubleBid() {
     if (this._money() - this._bid() < 0) return false;
 
-    console.log(this.money(), this._bid());
     this.subtract(this._bid());
     this._bid.update((bid) => bid * 2);
-    console.log(this.money(), this._bid());
     return true;
   }
 

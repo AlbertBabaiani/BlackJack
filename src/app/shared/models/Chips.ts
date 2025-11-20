@@ -5,6 +5,7 @@
 type ChipLabels = '50' | '100' | '200' | '500' | '1K' | '2K';
 type ChipValues = 50 | 100 | 200 | 500 | 1000 | 2000;
 export type ChipType = { label: ChipLabels; value: ChipValues };
+export type SelectedChip = { posX: number; posY: number } & ChipType;
 
 export const CHIP_VALUES: ChipType[] = [
   { label: '50', value: 50 },

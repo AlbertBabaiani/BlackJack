@@ -1,19 +1,33 @@
 import { Injectable, signal } from '@angular/core';
-import { Card } from '../../shared/models/Card';
+import { Card, Ranks, Suits, Values } from '../../shared/models/Card';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Deck {
-  private readonly Suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
-  private readonly Ranks = ['A', 'K', 'Q', 'J', '10', '9', '8', '7', '6', '5', '4', '3', '2'];
+  private readonly Suits: Suits[] = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
+  private readonly Ranks: Ranks[] = [
+    'A',
+    'K',
+    'Q',
+    'J',
+    '10',
+    '9',
+    '8',
+    '7',
+    '6',
+    '5',
+    '4',
+    '3',
+    '2',
+  ];
 
   private _cards = signal<Card[]>([]);
   readonly cards = this._cards.asReadonly();
 
   private deckQuantity: number = 6;
 
-  private getCardValue(rank: string): number {
+  private getCardValue(rank: string): Values {
     if (rank === 'A') {
       return 11;
     }
@@ -22,7 +36,7 @@ export class Deck {
       return 10;
     }
 
-    return parseInt(rank, 10);
+    return parseInt(rank, 10) as Values;
   }
 
   createDeck(deckQuantity: number = this.deckQuantity) {

@@ -1,6 +1,5 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Chip } from '../../../../shared/components/chip/chip';
-import { ChipsService } from '../../../../core/services/chips-service';
 import { SelectedChipsService } from '../../services/selected-chips-service';
 
 @Component({
@@ -12,14 +11,7 @@ import { SelectedChipsService } from '../../services/selected-chips-service';
 export class SelectedChips {
   private service = inject(SelectedChipsService);
 
-  chips = computed(() => {
-    return this.service.chips().map((chip, index) => {
-      const posX = Math.floor(Math.random() * 9) + 1;
-      const posY = index * 6;
-
-      return { ...chip, posX, posY };
-    });
-  });
+  chips = this.service.chips;
 
   chipsSum = this.service.chipsSum;
 

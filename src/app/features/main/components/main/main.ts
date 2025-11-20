@@ -9,11 +9,13 @@ import { CardStates } from '../../../../core/services/card-states';
   styleUrl: './main.scss',
 })
 export class Main {
-  private cardStates = inject(CardStates);
+  private service = inject(CardStates);
 
-  playerCards = this.cardStates.playerCards;
-  dealerCards = this.cardStates.dealerCards;
+  playerCards = this.service.playerCards;
+  dealerCards = this.service.dealerCards;
 
-  playerSum = this.cardStates.playerSum;
-  dealerSum = this.cardStates.dealerSum;
+  playerSum = this.service.playerSum;
+  dealerSum = this.service.dealerSum;
+
+  isAcePresent = this.service.isAce;
 }

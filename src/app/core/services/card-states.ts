@@ -18,8 +18,22 @@ export class CardStates {
     this._dealerCards().reduce((prev, next) => prev + next.value, 0)
   );
 
+  private _isAce = signal<boolean>(false);
+  readonly isAce = this._isAce.asReadonly();
+
   setInitialCards(cards: Card[]): GameResult | null {
     if (cards.length < 4) return null;
+
+    const playerAce1 = this.checkAce(cards[0]);
+    const playerAce2 = this.checkAce(cards[2]);
+    if (playerAce1 && playerAce2) cards[2].setAce1();
+    else {
+      if (playerAce2) this._isAce.set(true);
+    }
+
+    const dealerAce1 = this.checkAce(cards[1]);
+    const dealerAce2 = this.checkAce(cards[3]);
+    if (dealerAce1 && dealerAce2) cards[3].setAce1();
 
     this._playerCards.set([cards[0], cards[2]]);
     this._dealerCards.set([cards[1], cards[3]]);
@@ -36,51 +50,55 @@ export class CardStates {
 
     const playerSum = playerCards.reduce((prev, next) => prev + next.value, 0);
 
-    if (playerSum === 21) {
-      return GameResult.BlackJack;
-    }
+    return playerSum === 21 ? GameResult.BlackJack : null;
+  }
 
-    return null;
+  private checkAce(card: Card): boolean {
+    return card.rank === 'A' && card.value === 11;
   }
 
   addPlayerCard(card: Card): GameResult | null {
-    if (this.playerSum() > 21) return GameResult.Lose;
-
-    this._playerCards.update((arr) => [...arr, card]);
-
-    if (this.playerSum() > 21) {
-      return GameResult.Lose;
+    if (card.value + this.playerSum() > 21 && this.checkAce(card)) {
+      card.setAce1();
+    }
+    //
+    else if (this._isAce()) {
+      const playerCards = this._playerCards();
+      playerCards[playerCards.length - 1].setAce1();
+      this._playerCards.set(playerCards);
+      this._isAce.set(false);
     }
 
-    return null;
+    if (this.checkAce(card)) {
+      this._isAce.set(true);
+    }
+
+    this._playerCards.update((arr) => [...arr, card]);
+    console.log(this.playerSum());
+
+    return this.playerSum() > 21 ? GameResult.Lose : null;
   }
 
   addDealerCard(card: Card): GameResult | null {
-    if (this.dealerSum() > 21) return GameResult.Win;
-
-    this._dealerCards.update((arr) => [...arr, card]);
-
-    if (this.dealerSum() > 21) {
-      return GameResult.Win;
+    if (this.checkAce(card)) {
+      card.setAce1();
     }
 
-    return null;
+    this._dealerCards.update((arr) => [...arr, card]);
+    console.log(this.dealerSum());
+
+    return this.dealerSum() > 21 ? GameResult.Win : null;
   }
 
   double(card: Card): GameResult {
-    if (this.playerSum() > 21) return GameResult.Lose;
-
     this._playerCards.update((arr) => [...arr, card]);
 
-    if (this.playerSum() > 21) {
-      return GameResult.Lose;
-    } else {
-      return GameResult.Win;
-    }
+    return this.playerSum() > 21 ? GameResult.Lose : GameResult.Win;
   }
 
   resetCards() {
     this._playerCards.set([]);
     this._dealerCards.set([]);
+    this._isAce.set(false);
   }
 }

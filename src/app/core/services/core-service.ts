@@ -21,11 +21,14 @@ export class CoreService {
 
   private controlsBlocked = signal<boolean>(false);
 
+  private gameTimeOut = 4000;
+
   initGame() {
     this.gameState.initGame();
   }
 
   startGame() {
+    if (this.controlsBlocked()) return;
     if (this.player.money() < 0 || this.player.bid() <= 0) return;
 
     this.gameState.startGame();
@@ -33,6 +36,12 @@ export class CoreService {
     const cards = this.deckService.drawFromShoe(4);
 
     const initialResult = this.cardStates.setInitialCards(cards);
+    // const initialResult = this.cardStates.setInitialCards([
+    //   new Card('Hearts', '7', 7),
+    //   new Card('Hearts', 'A', 11),
+    //   new Card('Hearts', '10', 10),
+    //   new Card('Hearts', 'A', 11),
+    // ]);
 
     if (initialResult === GameResult.BlackJack) {
       this.endGame(GameResult.BlackJack);
@@ -43,28 +52,27 @@ export class CoreService {
 
   playerHit() {
     if (this.controlsBlocked()) return;
-    if (this.cardStates.playerSum() >= 21) return;
+    if (this.cardStates.playerSum() >= 21) this.endGame(GameResult.Lose);
 
     const card = this.deckService.drawFromShoe(1);
 
     if (card.length < 1) return;
 
     const moveResult = this.cardStates.addPlayerCard(card[0]);
+    // const moveResult = this.cardStates.addPlayerCard(new Card('Diamonds', 'A', 11));
 
     if (moveResult === GameResult.Lose) {
       this.endGame(moveResult);
-      return;
+    }
+
+    if (this.cardStates.playerSum() === 21) {
+      this.stand();
     }
   }
 
   double(): void {
     if (this.controlsBlocked()) return;
     this.controlsBlocked.set(true);
-
-    const bid = this.player.bid();
-    const money = this.player.money();
-
-    if (bid > money) return;
 
     const response = this.player.doubleBid();
     if (!response) return;
@@ -74,25 +82,24 @@ export class CoreService {
 
     const moveResult = this.cardStates.double(card[0]);
 
-    if (moveResult === GameResult.Lose) {
-      this.endGame(moveResult, true);
-      return;
-    } else {
-      this.endGame(moveResult, true);
-      return;
-    }
+    this.endGame(moveResult, true);
   }
 
   private dealerHit(): GameResult | null {
     const playerSum = this.cardStates.playerSum;
     const dealerSum = this.cardStates.dealerSum;
 
-    while ((dealerSum() < playerSum() || dealerSum() <= 16) && dealerSum() <= 21) {
+    // while ((dealerSum() < playerSum() || dealerSum() <= 16) && dealerSum() <= 21) {
+    while ((dealerSum() <= playerSum() || dealerSum() <= 16) && dealerSum() < 21) {
       const card = this.deckService.drawFromShoe(1);
 
       if (card.length < 1) return null;
 
+      console.log('Dealer sum: ', dealerSum());
+
       const moveResult = this.cardStates.addDealerCard(card[0]);
+      // const moveResult = this.cardStates.addDealerCard(new Card('Clubs', 'A', 11));
+
       if (moveResult === GameResult.Win) {
         return GameResult.Win;
       }
@@ -103,6 +110,7 @@ export class CoreService {
 
   stand(): void {
     if (this.controlsBlocked()) return;
+    this.controlsBlocked.set(true);
     const playerSum = this.cardStates.playerSum;
     const dealerSum = this.cardStates.dealerSum;
 
@@ -117,8 +125,6 @@ export class CoreService {
       }
     }
 
-    console.log(playerSum(), dealerSum());
-
     if (playerSum() > dealerSum()) {
       this.endGame(GameResult.Win);
     } else if (playerSum() < dealerSum()) {
@@ -129,7 +135,6 @@ export class CoreService {
   }
 
   private endGame(result: GameResult, doubled?: boolean): void {
-    console.log(this.player.money(), this.player.bid());
     this.controlsBlocked.set(true);
 
     if (result === GameResult.Lose) {
@@ -153,6 +158,6 @@ export class CoreService {
 
       if (doubled) this.player.removeDoubled();
       this.gameState.initGame();
-    }, 2000);
+    }, this.gameTimeOut);
   }
 }

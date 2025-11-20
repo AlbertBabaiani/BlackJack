@@ -29,5 +29,6 @@ export class SelectedChipsService {
 
   resetMoney() {
     this.player.resetMoney();
+    this.clearChips();
   }
 }

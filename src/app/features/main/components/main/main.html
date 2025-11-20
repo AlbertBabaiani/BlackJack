@@ -16,7 +16,7 @@
     }
     <div class="values-sum-container">
       <span>
-        {{ playerSum() }}
+        {{ isAcePresent() ? `${playerSum()} / ${playerSum() - 10}` : playerSum() }}
       </span>
     </div>
   </div>
