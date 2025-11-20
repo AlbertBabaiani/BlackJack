@@ -57,7 +57,7 @@ export class CardStates {
     return card.rank === 'A' && card.value === 11;
   }
 
-  addPlayerCard(card: Card): GameResult | null {
+  private processAce(card: Card) {
     if (card.value + this.playerSum() > 21 && this.checkAce(card)) {
       card.setAce1();
     }
@@ -68,6 +68,10 @@ export class CardStates {
       this._playerCards.set(playerCards);
       this._isAce.set(false);
     }
+  }
+
+  addPlayerCard(card: Card): GameResult | null {
+    this.processAce(card);
 
     if (this.checkAce(card)) {
       this._isAce.set(true);
@@ -91,6 +95,8 @@ export class CardStates {
   }
 
   double(card: Card): GameResult {
+    this.processAce(card);
+
     this._playerCards.update((arr) => [...arr, card]);
 
     return this.playerSum() > 21 ? GameResult.Lose : GameResult.Win;

@@ -37,9 +37,9 @@ export class CoreService {
 
     const initialResult = this.cardStates.setInitialCards(cards);
     // const initialResult = this.cardStates.setInitialCards([
-    //   new Card('Hearts', '7', 7),
+    //   new Card('Hearts', '2', 2),
     //   new Card('Hearts', 'A', 11),
-    //   new Card('Hearts', '10', 10),
+    //   new Card('Hearts', 'A', 11),
     //   new Card('Hearts', 'A', 11),
     // ]);
 
@@ -81,6 +81,7 @@ export class CoreService {
     if (card.length < 1) return;
 
     const moveResult = this.cardStates.double(card[0]);
+    // const moveResult = this.cardStates.double(new Card('Clubs', '6', 6));
 
     this.endGame(moveResult, true);
   }
@@ -98,7 +99,6 @@ export class CoreService {
       console.log('Dealer sum: ', dealerSum());
 
       const moveResult = this.cardStates.addDealerCard(card[0]);
-      // const moveResult = this.cardStates.addDealerCard(new Card('Clubs', 'A', 11));
 
       if (moveResult === GameResult.Win) {
         return GameResult.Win;

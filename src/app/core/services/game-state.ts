@@ -5,7 +5,7 @@ import { GameStates } from '../../shared/models/GameStates';
   providedIn: 'root',
 })
 export class GameState {
-  private _gameState = signal<GameStates>(GameStates.Initialized);
+  private _gameState = signal<GameStates>(GameStates.Opened);
   readonly gameState = this._gameState.asReadonly();
 
   initGame(): void {
