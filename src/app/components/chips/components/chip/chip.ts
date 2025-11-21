@@ -8,4 +8,5 @@ import { Component, input } from '@angular/core';
 })
 export class Chip {
   value = input.required<string>();
+  hoverEffect = input.required<boolean>();
 }

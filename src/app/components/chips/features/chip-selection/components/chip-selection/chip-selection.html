@@ -1,7 +1,5 @@
-<section class="chips">
-  @for(chip of chips(); track $index){
+@for(chip of chips(); track $index){
 
-  <app-chip (click)="selectChip(chip)" [value]="chip.label" />
+<app-chip (click)="selectChip(chip)" [value]="chip.label" [hoverEffect]="true" />
 
-  }
-</section>
+}

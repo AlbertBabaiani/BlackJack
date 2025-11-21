@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { CoreService } from '../../../../../core/services/core-service';
-import { ChipsService } from '../../../../../core/services/chips-service';
 import { Player } from '../../../../../core/services/player';
+import { ChipsService } from '../../../services/chips-service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,12 +23,6 @@ export class SelectedChipsService {
     if (this.chipsService.selectedChipsSum() <= 0) return;
 
     this.player.placeBid(this.chipsSum());
-    // this.chipsService.clearSelectedChips();
     this.coreService.startGame();
-  }
-
-  resetMoney() {
-    this.player.resetMoney();
-    this.clearChips();
   }
 }

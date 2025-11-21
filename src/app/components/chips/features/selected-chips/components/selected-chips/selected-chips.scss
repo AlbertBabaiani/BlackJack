@@ -1,7 +1,10 @@
-.container {
-  background: green;
-  height: 20rem;
-  width: 60rem;
+:host {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
 }
 
 .chips-stack {
@@ -15,10 +18,30 @@
   bottom: calc(var(--y) * 1px);
 }
 
-.action-buttons {
-  button {
-    font-size: 2rem;
-    padding: 1rem 2rem;
+.controls {
+  margin-top: var(--space-6);
+
+  .user-bid {
+    text-align: center;
+    color: #fff;
+    font-size: var(--text-lg);
+  }
+
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+
+  .action-btn {
+    font-size: var(--text-lg);
+    padding: var(--space-4) var(--space-8);
     cursor: pointer;
+
+    &:disabled {
+      opacity: 1;
+      background: gray;
+    }
   }
 }

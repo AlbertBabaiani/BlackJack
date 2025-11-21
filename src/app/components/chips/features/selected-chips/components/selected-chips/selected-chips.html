@@ -1,14 +1,22 @@
-<section class="container">
-  <div class="chips-stack">
-    @for(chip of chips(); track `${$index}-${chip}`){
-    <app-chip class="chip" [style.--x]="chip.posX" [style.--y]="chip.posY" [value]="chip.label" />
-    }
-  </div>
+<div class="chips-stack">
+  @for(chip of chips(); track `${$index}-${chip}`){
+  <app-chip
+    class="chip"
+    [style.--x]="chip.posX"
+    [style.--y]="chip.posY"
+    [value]="chip.label"
+    [hoverEffect]="false"
+  />
+  }
+</div>
+
+<section class="controls">
+  <p class="user-bid">{{ chipsSum() | currency : 'USD' : 'symbol' : '1.0-0' }}</p>
 
   <div class="action-buttons">
-    <button type="button" (click)="clearChips()">Clear</button>
-    <button type="button" [disabled]="!chips().length" (click)="startGame()">Accept</button>
-    {{ chipsSum() }}
+    <button class="action-btn" type="button" (click)="clearChips()">Clear</button>
+    <button class="action-btn" type="button" [disabled]="!chips().length" (click)="startGame()">
+      Accept
+    </button>
   </div>
-  <button type="button" (click)="resetMoney()">Reset Money</button>
 </section>

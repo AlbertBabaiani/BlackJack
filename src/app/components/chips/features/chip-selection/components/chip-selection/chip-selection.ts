@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ChipSelectionService } from '../../services/chip-selection-service';
-import { Chip } from '../../../../../../shared/components/chip/chip';
 import { ChipType } from '../../../../models/Chips';
+import { Chip } from '../../../../components/chip/chip';
 
 @Component({
   selector: 'app-chip-selection',

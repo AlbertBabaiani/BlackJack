@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { SelectedChipsService } from '../../services/selected-chips-service';
-import { Chip } from '../../../../../../shared/components/chip/chip';
+import { Chip } from '../../../../components/chip/chip';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-selected-chips',
-  imports: [Chip],
+  imports: [Chip, CurrencyPipe],
   templateUrl: './selected-chips.html',
   styleUrl: './selected-chips.scss',
 })
@@ -21,9 +22,5 @@ export class SelectedChips {
 
   startGame(): void {
     this.service.startGame();
-  }
-
-  resetMoney(): void {
-    this.service.resetMoney();
   }
 }

@@ -1,6 +1,6 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import { CHIP_VALUES, ChipType, SelectedChip } from '../../components/chips/models/Chips';
-import { Player } from './player';
+import { Player } from '../../../core/services/player';
+import { CHIP_VALUES, ChipType, SelectedChip } from '../models/Chips';
 
 @Injectable({
   providedIn: 'root',
@@ -33,10 +33,30 @@ export class ChipsService {
   }
 
   private readonly maxChipsInColumn: number = 6;
-  private readonly maxChipsColumn: number = 7;
+  private readonly maxChipsColumn: number = 6;
   private readonly columnGap: number = 120;
   private readonly rowGap: number = 8;
   private currentColumn: number = 0;
+  private columns: { [key: string]: { x: number; y: number } } = {
+    '0': { x: 2 * this.columnGap, y: 2 * this.rowGap },
+    '1': { x: 3 * this.columnGap, y: 3 * this.rowGap },
+    '2': {
+      x: 1 * this.columnGap,
+      y: 1 * this.rowGap + this.rowGap * this.maxChipsInColumn,
+    },
+    '3': {
+      x: 4 * this.columnGap,
+      y: 2 * this.rowGap + this.rowGap * this.maxChipsInColumn,
+    },
+    '4': {
+      x: 1 * this.columnGap + this.columnGap / 2 + this.columnGap / 4 + this.columnGap / 6,
+      y: 3 * this.maxChipsInColumn * this.rowGap,
+    },
+    '5': {
+      x: 4 * this.columnGap - this.columnGap / 2 - this.columnGap / 4 - this.columnGap / 6,
+      y: 3 * this.maxChipsInColumn * this.rowGap + this.rowGap,
+    },
+  };
 
   selectChip(chip: ChipType) {
     const newSum = this.selectedChipsSum() + chip.value;
@@ -49,8 +69,9 @@ export class ChipsService {
 
     if (this.currentColumn + 1 > this.maxChipsColumn) return;
 
-    const posX = Math.floor(Math.random() * 9) + 1 + this.currentColumn * this.columnGap;
-    const posY = leftChipsInColumn * this.rowGap;
+    // const posX = Math.floor(Math.random() * 9) + 1 + this.currentColumn * this.columnGap;
+    const posX = Math.floor(Math.random() * 9) + 1 + this.columns[this.currentColumn.toString()].x;
+    const posY = leftChipsInColumn * this.rowGap + this.columns[this.currentColumn.toString()].y;
 
     const newChip: SelectedChip = { ...chip, posX, posY };
     this._selectedChips.update((chips) => [...chips, newChip]);
