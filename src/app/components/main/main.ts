@@ -18,4 +18,5 @@ export class Main {
   dealerSum = this.service.dealerSum;
 
   isAcePresent = this.service.isAce;
+  gameStarted = this.service.gameStarted;
 }

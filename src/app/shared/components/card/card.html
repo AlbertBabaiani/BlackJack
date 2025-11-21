@@ -1,16 +1,12 @@
-<div class="card">
-  <div class="card-content">
-    <div class="card-details">
-      <span>{{ rank() }}</span>
-      <span>
-        @switch (suit()) { @case ('Clubs') {♣} @case ('Hearts') {♥} @case ('Diamonds') {♦} @case
-        ('Spades') {♠} }
-      </span>
+<article class="card-object">
+  <div class="card" [class.is-flipped]="isFlipped()">
+    <div class="card-face face-front">
+      <img
+        [src]="'/assets/images/cards/' + rank() + '_of_' + suits() + '.png'"
+        [alt]="rank() + ' of ' + suits()"
+      />
     </div>
 
-    <div class="card-details">
-      <span>{{ rank() }}</span>
-      <span>♠</span>
-    </div>
+    <div class="card-face face-back"></div>
   </div>
-</div>
+</article>

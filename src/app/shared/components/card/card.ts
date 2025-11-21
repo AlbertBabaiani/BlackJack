@@ -1,4 +1,5 @@
 import { Component, input } from '@angular/core';
+import { Ranks, Suits } from '../../models/Card';
 
 @Component({
   selector: 'app-card',
@@ -7,6 +8,8 @@ import { Component, input } from '@angular/core';
   styleUrl: './card.scss',
 })
 export class Card {
-  suit = input.required();
-  rank = input.required();
+  suits = input.required({ transform: (val: Suits) => val.toLowerCase() });
+  rank = input.required({ transform: (val: Ranks) => val.toLowerCase() });
+
+  isFlipped = input.required<boolean>();
 }

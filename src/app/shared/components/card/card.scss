@@ -1,30 +1,78 @@
-.card {
+.card-object {
   width: 14rem;
-  aspect-ratio: 14 / 19.2;
-  border-radius: 1rem;
-  background-image: url('/assets/images/Card_BackFace.png');
-  background-size: cover;
-  padding: 1.2rem 1.75rem;
+  aspect-ratio: 2.5 / 3.5;
+  padding: var(--space-2);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: rgb(228, 190, 109);
 
-  &-content {
-    position: relative;
-    height: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.1);
+}
 
-    font-size: 2rem;
-    color: #fff;
+.card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+
+  // animation: dealCard 0.8s ease-out backwards;
+
+  &.is-flipped {
+    transform: rotateY(180deg);
   }
 
-  &-details {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: min-content;
+  &-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 
-    &:last-child {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      transform: rotate(180deg);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+}
+
+.face {
+  &-front {
+    transform: rotateY(0deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
     }
+  }
+
+  &-back {
+    transform: rotateY(180deg);
+    background-color: #b71c1c;
+    border: 4px solid white;
+
+    background-image: linear-gradient(
+        45deg,
+        #a31515 25%,
+        transparent 25%,
+        transparent 75%,
+        #a31515 75%,
+        #a31515
+      ),
+      linear-gradient(45deg, #a31515 25%, transparent 25%, transparent 75%, #a31515 75%, #a31515);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+  }
+}
+
+@keyframes dealCard {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px) rotateY(180deg) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateY(0deg) scale(1);
   }
 }

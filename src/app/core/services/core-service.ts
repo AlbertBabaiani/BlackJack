@@ -21,7 +21,7 @@ export class CoreService {
 
   private controlsBlocked = signal<boolean>(false);
 
-  private gameTimeOut = 3000;
+  private gameTimeOut = 4000;
 
   initGame() {
     this.gameState.initGame();
@@ -40,13 +40,11 @@ export class CoreService {
     //   new Card('Hearts', '2', 2),
     //   new Card('Hearts', 'A', 11),
     //   new Card('Hearts', 'A', 11),
-    //   new Card('Hearts', 'A', 11),
+    //   new Card('Hearts', 'Q', 10),
     // ]);
 
-    if (initialResult === GameResult.BlackJack) {
-      this.endGame(GameResult.BlackJack);
-    } else if (initialResult === GameResult.Lose) {
-      this.endGame(GameResult.Lose);
+    if (initialResult === GameResult.BlackJack || initialResult === GameResult.Lose) {
+      this.endGame(initialResult);
     }
   }
 
@@ -72,7 +70,6 @@ export class CoreService {
 
   double(): void {
     if (this.controlsBlocked()) return;
-    this.controlsBlocked.set(true);
 
     const response = this.player.doubleBid();
     if (!response) return;
@@ -83,7 +80,11 @@ export class CoreService {
     const moveResult = this.cardStates.double(card[0]);
     // const moveResult = this.cardStates.double(new Card('Clubs', '6', 6));
 
-    this.endGame(moveResult, true);
+    if (moveResult === GameResult.Lose) {
+      this.endGame(moveResult, true);
+    } else {
+      this.stand();
+    }
   }
 
   private dealerHit(): GameResult | null {

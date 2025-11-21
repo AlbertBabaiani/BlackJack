@@ -14,4 +14,7 @@
 body {
   min-height: 100vh;
   min-height: 100dvh;
+
+  perspective: 1000px;
+  perspective-origin: center center;
 }

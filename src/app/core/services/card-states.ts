@@ -6,6 +6,9 @@ import { GameResult } from '../../shared/models/GameResult';
   providedIn: 'root',
 })
 export class CardStates {
+  private _gameStarted = signal<boolean>(true);
+  readonly gameStarted = this._gameStarted.asReadonly();
+
   private _playerCards = signal<Card[]>([]);
   readonly playerCards = this._playerCards.asReadonly();
   readonly playerSum = computed(() =>
@@ -15,11 +18,19 @@ export class CardStates {
   private _dealerCards = signal<Card[]>([]);
   readonly dealerCards = this._dealerCards.asReadonly();
   readonly dealerSum = computed(() =>
-    this._dealerCards().reduce((prev, next) => prev + next.value, 0)
+    this.gameStarted()
+      ? this._dealerCards()[0].value
+      : this._dealerCards().reduce((prev, next) => prev + next.value, 0)
   );
+
+  private shuffleTime = 2000;
 
   private _isAce = signal<boolean>(false);
   readonly isAce = this._isAce.asReadonly();
+
+  delay(ms: number = this.shuffleTime) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 
   setInitialCards(cards: Card[]): GameResult | null {
     if (cards.length < 4) return null;
@@ -37,7 +48,6 @@ export class CardStates {
 
     this._playerCards.set([cards[0], cards[2]]);
     this._dealerCards.set([cards[1], cards[3]]);
-
     return this.checkInitialCards([cards[0], cards[2]], [cards[1], cards[3]]);
   }
 
@@ -45,6 +55,7 @@ export class CardStates {
     const dealerSum = dealerCards.reduce((prev, next) => prev + next.value, 0);
 
     if (dealerSum === 21) {
+      this._gameStarted.set(false);
       return GameResult.Lose;
     }
 
@@ -78,18 +89,17 @@ export class CardStates {
     }
 
     this._playerCards.update((arr) => [...arr, card]);
-    console.log(this.playerSum());
 
     return this.playerSum() > 21 ? GameResult.Lose : null;
   }
 
   addDealerCard(card: Card): GameResult | null {
+    this._gameStarted.set(false);
     if (this.checkAce(card)) {
       card.setAce1();
     }
 
     this._dealerCards.update((arr) => [...arr, card]);
-    console.log(this.dealerSum());
 
     return this.dealerSum() > 21 ? GameResult.Win : null;
   }
@@ -106,5 +116,6 @@ export class CardStates {
     this._playerCards.set([]);
     this._dealerCards.set([]);
     this._isAce.set(false);
+    this._gameStarted.set(true);
   }
 }
