@@ -35,13 +35,13 @@ export class CoreService {
 
     const cards = this.deckService.drawFromShoe(4);
 
-    const initialResult = this.cardStates.setInitialCards(cards);
-    // const initialResult = this.cardStates.setInitialCards([
-    //   new Card('Hearts', '2', 2),
-    //   new Card('Hearts', 'A', 11),
-    //   new Card('Hearts', 'A', 11),
-    //   new Card('Hearts', 'Q', 10),
-    // ]);
+    // const initialResult = this.cardStates.setInitialCards(cards);
+    const initialResult = this.cardStates.setInitialCards([
+      new Card('Hearts', '2', 2),
+      new Card('Hearts', '10', 10),
+      new Card('Hearts', 'A', 11),
+      new Card('Hearts', '9', 9),
+    ]);
 
     if (initialResult === GameResult.BlackJack || initialResult === GameResult.Lose) {
       this.endGame(initialResult);
@@ -97,8 +97,6 @@ export class CoreService {
 
       if (card.length < 1) return null;
 
-      console.log('Dealer sum: ', dealerSum());
-
       const moveResult = this.cardStates.addDealerCard(card[0]);
 
       if (moveResult === GameResult.Win) {
@@ -118,6 +116,7 @@ export class CoreService {
     this.controlsBlocked.set(true);
 
     if (dealerSum() <= 16) {
+      console.log('gg');
       const moveResult = this.dealerHit();
 
       if (moveResult === GameResult.Win) {

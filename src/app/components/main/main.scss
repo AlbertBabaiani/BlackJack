@@ -1,19 +1,31 @@
+$width: 16rem;
+
+:host {
+  height: 100%;
+  width: 100%;
+
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
 .cards {
   display: flex;
   align-items: center;
   gap: 2rem;
-  margin-bottom: 2rem;
 
   position: relative;
 
-  &.dealer-cards {
+  width: calc(var(--width) * 1rem);
+  margin-inline: auto;
+
+  &-dealer {
     .values-sum-container {
       top: 0;
       transform: translate(-50%, -50%);
     }
   }
 
-  &.player-cards {
+  &-player {
     .values-sum-container {
       bottom: 0;
       transform: translate(-50%, 50%);
@@ -22,6 +34,7 @@
 
   .values-sum-container {
     position: absolute;
+    z-index: 2;
 
     left: 50%;
 
@@ -36,4 +49,10 @@
     align-items: center;
     font-size: 1.75rem;
   }
+}
+
+.card {
+  position: absolute;
+  z-index: 1;
+  left: calc(var(--x) * 1px);
 }

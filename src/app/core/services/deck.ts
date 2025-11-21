@@ -54,7 +54,7 @@ export class Deck {
     this.shuffle();
   }
 
-  shuffle(): void {
+  private shuffle(): void {
     for (let i = this._cards().length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [this._cards()[i], this._cards()[j]] = [this._cards()[j], this._cards()[i]];

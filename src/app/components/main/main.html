@@ -1,23 +1,33 @@
-<div>
-  <div class="cards dealer-cards">
-    @for(card of dealerCards(); track $index){
-    <app-card [suits]="card.suit" [rank]="card.rank" [isFlipped]="$index === 1 && gameStarted()" />
-    }
-    <div class="values-sum-container">
-      <span>
-        {{ dealerSum() }}
-      </span>
-    </div>
+<div class="cards cards-dealer" [style.--width]="calculateWidth(dealerCards())">
+  @for(card of dealerCards(); track $index){
+  <app-card
+    class="card"
+    [style.--x]="$index * calculateColumnGap(playerCards())"
+    [suits]="card.suit"
+    [rank]="card.rank"
+    [isFlipped]="$index === 1 && gameStarted()"
+  />
+  }
+  <div class="values-sum-container">
+    <span>
+      {{ dealerSum() }}
+    </span>
   </div>
+</div>
 
-  <div class="cards player-cards">
-    @for(card of playerCards(); track $index){
-    <app-card [suits]="card.suit" [rank]="card.rank" [isFlipped]="false" />
-    }
-    <div class="values-sum-container">
-      <span>
-        {{playerSum() === 21 ? playerSum() :isAcePresent() ? `${playerSum()} / ${playerSum() - 10}` : playerSum() }}
-      </span>
-    </div>
+<div class="cards cards-player" [style.--width]="calculateWidth(playerCards())">
+  @for(card of playerCards(); track $index){
+  <app-card
+    class="card"
+    [style.--x]="$index * calculateColumnGap(playerCards())"
+    [suits]="card.suit"
+    [rank]="card.rank"
+    [isFlipped]="false"
+  />
+  }
+  <div class="values-sum-container">
+    <span>
+      {{playerSum() === 21 ? playerSum() :isAcePresent() ? `${playerSum()} / ${playerSum() - 10}` : playerSum() }}
+    </span>
   </div>
 </div>
