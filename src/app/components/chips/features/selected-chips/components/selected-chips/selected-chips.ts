@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { Chip } from '../../../../shared/components/chip/chip';
 import { SelectedChipsService } from '../../services/selected-chips-service';
+import { Chip } from '../../../../../../shared/components/chip/chip';
 
 @Component({
   selector: 'app-selected-chips',

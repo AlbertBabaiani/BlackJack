@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { SelectedChips } from '../../features/selected-chips/components/selected-chips/selected-chips';
 import { GameState } from '../../core/services/game-state';
-import { Main } from '../../features/main/components/main/main';
+import { Main } from '../../components/main/main';
+import { SelectedChips } from '../../components/chips/features/selected-chips/components/selected-chips/selected-chips';
 
 @Component({
   selector: 'app-card-table',

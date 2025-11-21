@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { ChipsService } from '../../../core/services/chips-service';
-import { ChipType } from '../../../shared/models/Chips';
+import { ChipsService } from '../../../../../core/services/chips-service';
+import { ChipType } from '../../../models/Chips';
 
 @Injectable({
   providedIn: 'root',

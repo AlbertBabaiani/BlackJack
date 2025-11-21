@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { ChipSelection } from '../../../../features/chip-selection/components/chip-selection/chip-selection';
-import { GameActionButtons } from '../../../../features/game-action-buttons/game-action-buttons';
 import { GameState } from '../../../../core/services/game-state';
 import { BottomPanelService } from '../../services/bottom-panel-service';
 import { CurrencyPipe } from '@angular/common';
+import { ChipSelection } from '../../../../components/chips/features/chip-selection/components/chip-selection/chip-selection';
+import { GameActionButtons } from '../../../../components/game-action-buttons/game-action-buttons';
 
 @Component({
   selector: 'app-bottom-panel',

@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { GameMessageService } from '../../core/services/game-message-service';
 import { CurrencyPipe } from '@angular/common';
+import { GameMessageService } from '../../../core/services/game-message-service';
 
 @Component({
   selector: 'app-game-result-dialog',

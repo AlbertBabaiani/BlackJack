@@ -2,9 +2,9 @@ import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CardTable } from './layout/card-table/card-table';
 import { BottomPanel } from './layout/bottom-panel/components/bottom-panel/bottom-panel';
-import { GameDialog } from './features/game-dialog/game-dialog';
 import { GameState } from './core/services/game-state';
-import { GameResultDialog } from './features/game-result-dialog/game-result-dialog';
+import { GameDialog } from './components/dialogs/game-dialog/game-dialog';
+import { GameResultDialog } from './components/dialogs/game-result-dialog/game-result-dialog';
 
 @Component({
   selector: 'app-root',

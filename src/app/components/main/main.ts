@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { Card } from '../../../../shared/components/card/card';
-import { CardStates } from '../../../../core/services/card-states';
+import { Card } from '../../shared/components/card/card';
+import { CardStates } from '../../core/services/card-states';
 
 @Component({
   selector: 'app-main',

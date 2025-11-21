@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { ChipsService } from '../../../core/services/chips-service';
-import { CoreService } from '../../../core/services/core-service';
-import { Player } from '../../../core/services/player';
+import { CoreService } from '../../../../../core/services/core-service';
+import { ChipsService } from '../../../../../core/services/chips-service';
+import { Player } from '../../../../../core/services/player';
 
 @Injectable({
   providedIn: 'root',

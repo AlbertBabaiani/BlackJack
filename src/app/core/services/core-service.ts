@@ -21,7 +21,7 @@ export class CoreService {
 
   private controlsBlocked = signal<boolean>(false);
 
-  private gameTimeOut = 4000;
+  private gameTimeOut = 3000;
 
   initGame() {
     this.gameState.initGame();

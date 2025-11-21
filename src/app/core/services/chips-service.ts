@@ -1,5 +1,5 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import { CHIP_VALUES, ChipType, SelectedChip } from '../../shared/models/Chips';
+import { CHIP_VALUES, ChipType, SelectedChip } from '../../components/chips/models/Chips';
 import { Player } from './player';
 
 @Injectable({
