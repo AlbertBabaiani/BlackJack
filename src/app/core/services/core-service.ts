@@ -21,7 +21,7 @@ export class CoreService {
 
   private controlsBlocked = signal<boolean>(false);
 
-  private gameTimeOut = 4000;
+  private gameTimeOut = 3000;
 
   initGame() {
     this.gameState.initGame();
@@ -35,13 +35,13 @@ export class CoreService {
 
     const cards = this.deckService.drawFromShoe(4);
 
-    // const initialResult = this.cardStates.setInitialCards(cards);
-    const initialResult = this.cardStates.setInitialCards([
-      new Card('Hearts', '10', 10),
-      new Card('Hearts', '10', 10),
-      new Card('Hearts', '9', 9),
-      new Card('Hearts', '9', 9),
-    ]);
+    const initialResult = this.cardStates.setInitialCards(cards);
+    // const initialResult = this.cardStates.setInitialCards([
+    //   new Card('Hearts', '10', 10),
+    //   new Card('Hearts', '10', 10),
+    //   new Card('Hearts', '9', 9),
+    //   new Card('Hearts', '9', 9),
+    // ]);
 
     if (initialResult === GameResult.BlackJack || initialResult === GameResult.Lose) {
       this.endGame(initialResult);

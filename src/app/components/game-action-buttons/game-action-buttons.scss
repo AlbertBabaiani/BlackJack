@@ -3,16 +3,76 @@
   justify-content: space-between;
   width: 100%;
 
-  button {
-    width: 20%;
-    height: 3rem;
-    border-radius: 1rem;
-    border: none;
-    background: rgb(228, 190, 109);
-    cursor: pointer;
+  // button {
+  //   width: 20%;
+  //   height: 3rem;
+  //   border-radius: 1rem;
+  //   border: none;
+  //   background: rgb(228, 190, 109);
+  //   cursor: pointer;
 
-    &:hover {
-      background: rgb(196, 163, 93);
-    }
-  }
+  //   &:hover {
+  //     background: rgb(196, 163, 93);
+  //   }
+  // }
+}
+
+.btn-hit {
+  /* Complex Gradient for "Curved Shiny Plastic" look:
+     1. Very light top edge highlight.
+     2. The main bright color band.
+     3. Transition to the slightly darker base color.
+  */
+  background: linear-gradient(
+    to bottom,
+    #5cdb95 0%,
+    /* Top Highlight */ #2ecc71 15%,
+    /* Main bright green center */ #27ae60 100% /* Darker green bottom */
+  );
+
+  /* The "Bevel & Shadow" Stack:
+     1. (Inset) Bright white shine on top edge.
+     2. (Inset) Dark shadow on bottom edge giving it thickness.
+     3. Soft, wide, dark drop shadow for ambient occlusion on wood.
+     4. Tighter, darker shadow right underneath for grounding.
+  */
+  box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.6), inset 0 -4px 6px rgba(0, 0, 0, 0.3),
+    0 10px 20px rgba(0, 0, 0, 0.4), 0 4px 6px rgba(0, 0, 0, 0.3);
+
+  /* A thin, darker green border for definition */
+  border: 1px solid #1e8449;
+}
+
+/* --- STAND (Realistic Ruby Red) --- */
+.btn-stand {
+  background: linear-gradient(
+    to bottom,
+    #ff7675 0%,
+    /* Top Highlight */ #e74c3c 15%,
+    /* Main bright red center */ #c0392b 100% /* Darker crimson bottom */
+  );
+
+  box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.5), inset 0 -4px 6px rgba(0, 0, 0, 0.4),
+    0 10px 20px rgba(0, 0, 0, 0.4), 0 4px 6px rgba(0, 0, 0, 0.3);
+
+  border: 1px solid #922b21;
+}
+
+/* --- SPLIT/DOUBLE (Realistic Polished Brass/Gold) --- */
+.btn-special {
+  color: #4e342e; /* Dark brown text contrasts better with gold */
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5); /* Engraved look for dark text */
+
+  background: linear-gradient(
+    to bottom,
+    #fadd6e 0%,
+    /* Top shiny brass highlight */ #f1c40f 15%,
+    /* Main gold center */ #d38d0e 100% /* Darker, richer gold bottom */
+  );
+
+  box-shadow: inset 0 2px 2px rgba(255, 255, 220, 0.8),
+    /* Warmer highlight */ inset 0 -4px 6px rgba(0, 0, 0, 0.3), 0 10px 20px rgba(0, 0, 0, 0.4),
+    0 4px 6px rgba(0, 0, 0, 0.3);
+
+  border: 1px solid #b7950b;
 }

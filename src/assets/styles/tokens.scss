@@ -17,4 +17,26 @@
   --radius-2xl: 1rem;
   --radius-pill: 9999px;
   --radius-circle: 50%;
+
+  /* --- Tones & Surfaces --- */
+  --felt-primary: #0f3d28; /* Deep forest green (center of table) */
+  --felt-secondary: #052115; /* Darker vignette (edges of table) */
+  --wood-texture: #3e2723; /* Dark mahogany for the rail */
+
+  /* --- Metallic Accents (Gold) --- */
+  --gold-base: #d4af37; /* Standard metallic gold */
+  --gold-light: #f8e7a3; /* Highlight for gradients */
+  --gold-dark: #8a6e18; /* Shadow for gradients */
+  --gold-text: #ffecb3; /* Readable text color */
+
+  /* --- UI Actions --- */
+  --action-hit: #2ecc71; /* Bright Green for positive action */
+  --action-stand: #e74c3c; /* Red/Orange for stop action */
+  --action-neutral: #e0e0e0; /* White/Silver for Split/Double */
+
+  /* --- Shadows & Depth --- */
+  --shadow-hard: 0 4px 6px rgba(0, 0, 0, 0.6);
+  --shadow-soft: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --glass-bg: rgba(0, 0, 0, 0.5); /* Semi-transparent background for HUD */
+  --glass-border: 1px solid rgba(255, 236, 179, 0.2);
 }

@@ -34,7 +34,7 @@ $chip-types: (
       #f0ad4e,
       #fff,
     )
-    // Orange/Gold,,,,,,,,,,,,,,,,,,,,,,,
+    // Orange/Gold,,,,,,,,,,,,,,,,,,,,,,,,,
 );
 
 .table-surface {
@@ -90,3 +90,174 @@ $chip-types: (
     }
   }
 }
+
+// $size: 6rem;
+// $chip-types: (
+//   '50': (
+//     base: #e0e0e0,
+//     // White/Grey Base
+//     accent: #3498db,
+//     // Blue spots
+//     text: #333,
+//   ),
+//   '100': (
+//     base: #d32f2f,
+//     // Deep Red
+//     accent: #fbc02d,
+//     // Yellow/Gold spots
+//     text: #333,
+//   ),
+//   '200': (
+//     base: #2e7d32,
+//     // Forest Green
+//     accent: #e0e0e0,
+//     // White spots
+//     text: #333,
+//   ),
+//   '500': (
+//     base: #212121,
+//     // Black
+//     accent: #d32f2f,
+//     // Red spots
+//     text: #333,
+//   ),
+//   '1K': (
+//     base: #7b1fa2,
+//     // Purple
+//     accent: #ffeb3b,
+//     // Bright Yellow spots
+//     text: #333,
+//   ),
+//   '2K': (
+//     base: #f57c00,
+//     // Orange
+//     accent: #000000,
+//     // Black spots
+//     text: #333,
+//   ),
+// );
+
+// .table-surface {
+//   perspective: 1000px; /* Increased perspective for better view */
+//   display: flex;
+//   gap: 1.5rem; /* Add space between chips */
+//   justify-content: center;
+//   padding: 80px 50px;
+// }
+
+// .chip {
+//   position: relative;
+//   width: $size;
+//   height: $size;
+//   border-radius: 50%;
+
+//   /* Rotate the whole chip to lie on the table */
+//   transform: rotateX(50deg);
+//   transform-style: preserve-3d;
+//   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); // Bouncy effect
+//   cursor: pointer;
+
+//   /* --- The 3D "Side" (Thickness) --- */
+//   /* We use multiple shadows to simulate thickness + the shadow on the table */
+//   box-shadow: 0 1px 0 #bbb, 0 2px 0 #bbb, 0 3px 0 #bbb, 0 4px 0 #bbb, 0 5px 0 #bbb,
+//     /* The stack creates the physical edge */ 0 6px 0 #bbb, 0 30px 20px rgba(0, 0, 0, 0.4),
+//     /* Far diffuse shadow */ 0 10px 10px rgba(0, 0, 0, 0.3); /* Close tight shadow */
+
+//   /* --- Interactive Hover State --- */
+//   &.hoverEffect:hover {
+//     /* Lifts up and tilts slightly towards camera */
+//     transform: rotateX(50deg) translateY(-15px) scale(1.05);
+//     z-index: 10;
+//     box-shadow: 0 1px 0 #bbb, 0 2px 0 #bbb, 0 3px 0 #bbb, 0 4px 0 #bbb, 0 5px 0 #bbb, 0 6px 0 #bbb,
+//       0 50px 30px rgba(0, 0, 0, 0.3), /* Shadow grows and blurs */ 0 20px 15px rgba(0, 0, 0, 0.2);
+//   }
+
+//   /* Loop through colors */
+//   @each $value, $map in $chip-types {
+//     &.chip-#{$value} {
+//       $base: map-get($map, base);
+//       $accent: map-get($map, accent);
+//       $text: map-get($map, text);
+//       $dark-side: mix(black, $base, 30%); // Calculated dark color for the side
+
+//       /* 1. The "Clay" Pattern (Edge Spots) */
+//       background: conic-gradient(
+//         $base 0deg 30deg,
+//         $accent 30deg 45deg,
+//         /* The Edge Spot */ $base 45deg 90deg,
+//         $accent 90deg 105deg,
+//         /* The Edge Spot */ $base 105deg 150deg,
+//         $accent 150deg 165deg,
+//         /* The Edge Spot */ $base 165deg 210deg,
+//         $accent 210deg 225deg,
+//         /* The Edge Spot */ $base 225deg 270deg,
+//         $accent 270deg 285deg,
+//         /* The Edge Spot */ $base 285deg 330deg,
+//         $accent 330deg 345deg,
+//         /* The Edge Spot */ $base 345deg 360deg
+//       );
+
+//       /* 2. Colored Thickness (The Box Shadow Color) */
+//       box-shadow: 0 1px 0 $dark-side, 0 2px 0 $dark-side, 0 3px 0 $dark-side, 0 4px 0 $dark-side,
+//         0 5px 0 $dark-side, 0 6px 0 $dark-side, 0 30px 20px rgba(0, 0, 0, 0.4);
+
+//       /* 3. Inner Text Color */
+//       .chip-inlay {
+//         color: $text;
+//         border: 2px solid mix(white, $base, 20%); /* Subtle ring around sticker */
+//       }
+//     }
+//   }
+// }
+
+// /* --- The Inner Sticker (Inlay) --- */
+// .chip-inlay {
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+
+//   width: 65%;
+//   height: 65%;
+//   border-radius: 50%;
+//   background: radial-gradient(
+//     circle at 30% 30%,
+//     #fff,
+//     #f0f0f0
+//   ); /* Subtle gradient for paper/plastic look */
+
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+
+//   font-family: 'Georgia', serif; /* Classical casino font */
+//   font-weight: bold;
+//   font-size: 1.1rem;
+
+//   /* The "Ridge" Effect - Dashed border creates the mold marks */
+//   box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1); /* Depth groove */
+
+//   &::before {
+//     /* Optional: Dashed ring inside the sticker for detail */
+//     content: '';
+//     position: absolute;
+//     width: 85%;
+//     height: 85%;
+//     border: 2px dashed rgba(0, 0, 0, 0.2);
+//     border-radius: 50%;
+//   }
+// }
+
+// /* --- The Lighting Glare (Specular Highlight) --- */
+// .chip::after {
+//   content: '';
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   border-radius: 50%;
+//   /* A subtle shine on the top-left curve */
+//   background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 50%);
+//   pointer-events: none;
+// }

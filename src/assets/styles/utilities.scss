@@ -1,0 +1,47 @@
+.btn-3d {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  border: none;
+  padding: 16px 40px; /* Slightly taller for more presence */
+  border-radius: 12px; /* Slightly squarer corners look more mechanical */
+
+  font-family: 'Roboto', sans-serif; /* Use your preferred font */
+  font-size: 18px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #fff;
+  /* Subtle text shadow to make letters look slightly engraved or raised */
+  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.4);
+
+  /* Smooth transition for hover/active states */
+  transition: all 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
+  user-select: none;
+
+  /* Ensure it sits above the wood grain */
+  z-index: 2;
+}
+
+/* --- The "Pressed" Animation --- */
+.btn-3d:active {
+  /* Physically move the button down */
+  transform: translateY(5px);
+
+  /* Realistic press effect:
+     1. Reduce outer shadow blur and spread (it's closer to the table).
+     2. Darken the inset shadow to make it feel deeper in the casing.
+  */
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.6),
+    /* Deeper inner shadow */ 0 2px 4px rgba(0, 0, 0, 0.5); /* Sharp, small outer shadow */
+  /* Slightly dim the button when pressed */
+  filter: brightness(90%);
+}
+
+.btn-3d:hover {
+  filter: brightness(110%) contrast(110%);
+  transform: translateY(-2px);
+  /* Slightly expand shadow on hover */
+  box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.7), inset 0 -4px 6px rgba(0, 0, 0, 0.3),
+    0 14px 28px rgba(0, 0, 0, 0.35), 0 6px 8px rgba(0, 0, 0, 0.3);
+}

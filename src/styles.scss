@@ -1,6 +1,7 @@
 @use 'assets/styles/layout.scss';
 @use 'assets/styles/typography.scss';
 @use 'assets/styles/tokens.scss';
+@use 'assets/styles/utilities.scss';
 
 *,
 *::before,
@@ -9,12 +10,4 @@
   margin: 0;
 
   box-sizing: border-box;
-}
-
-body {
-  min-height: 100vh;
-  min-height: 100dvh;
-
-  perspective: 1000px;
-  perspective-origin: center center;
 }
