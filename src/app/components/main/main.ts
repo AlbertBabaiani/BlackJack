@@ -16,7 +16,7 @@ export class Main {
   dealerCards = this.service.dealerCards;
 
   playerSum = this.service.playerSum;
-  dealerSum = this.service.dealerSum;
+  dealerSum = this.service.displayedDealerSum;
 
   isAcePresent = this.service.isAce;
   gameStarted = this.service.gameStarted;

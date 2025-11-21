@@ -18,6 +18,9 @@ export class CardStates {
   private _dealerCards = signal<Card[]>([]);
   readonly dealerCards = this._dealerCards.asReadonly();
   readonly dealerSum = computed(() =>
+    this._dealerCards().reduce((prev, next) => prev + next.value, 0)
+  );
+  readonly displayedDealerSum = computed(() =>
     this.gameStarted()
       ? this._dealerCards()[0].value
       : this._dealerCards().reduce((prev, next) => prev + next.value, 0)
@@ -30,6 +33,10 @@ export class CardStates {
 
   delay(ms: number = this.shuffleTime) {
     return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  setGameStarted(): void {
+    this._gameStarted.set(false);
   }
 
   setInitialCards(cards: Card[]): GameResult | null {
