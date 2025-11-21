@@ -39,7 +39,7 @@ export class CoreService {
     // const initialResult = this.cardStates.setInitialCards([
     //   new Card('Hearts', '10', 10),
     //   new Card('Hearts', '10', 10),
-    //   new Card('Hearts', '9', 9),
+    //   new Card('Hearts', 'A', 11),
     //   new Card('Hearts', '9', 9),
     // ]);
 

@@ -68,7 +68,12 @@ export class CardStates {
 
     const playerSum = playerCards.reduce((prev, next) => prev + next.value, 0);
 
-    return playerSum === 21 ? GameResult.BlackJack : null;
+    if (playerSum === 21) {
+      this.setGameStarted();
+      return GameResult.BlackJack;
+    }
+
+    return null;
   }
 
   private checkAce(card: Card): boolean {
