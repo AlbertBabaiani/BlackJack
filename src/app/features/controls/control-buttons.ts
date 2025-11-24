@@ -2,12 +2,12 @@ import { Component, inject } from '@angular/core';
 import { CoreService } from '../../core/services/core-service';
 
 @Component({
-  selector: 'app-game-action-buttons',
+  selector: 'app-control-buttons',
   imports: [],
-  templateUrl: './game-action-buttons.html',
-  styleUrl: './game-action-buttons.scss',
+  templateUrl: './control-buttons.html',
+  styleUrl: './control-buttons.scss',
 })
-export class GameActionButtons {
+export class ControlButtons {
   private service = inject(CoreService);
 
   hit(): void {

@@ -1,0 +1,60 @@
+<div class="casino-table">
+  <div class="dialog-panel">
+    <h2 class="dialog-title">Select Game Settings</h2>
+  </div>
+</div>
+
+<div class="menu-wrapper">
+  <!-- Big Game Title (Optional, adds to the look) -->
+  <h1 class="game-title"><span class="text-gold">NG</span> DEALER</h1>
+
+  <div class="menu-grid">
+    <!-- 1. TOP SECTION: START GAME & SETTINGS -->
+    <div class="glass-panel start-panel">
+      <div class="panel-header">
+        <span class="glass-label">CONFIGURE TABLE</span>
+        <h2 class="panel-title">START NEW GAME</h2>
+      </div>
+
+      <div class="deck-selector">
+        <span class="glass-label">NUMBER OF DECKS</span>
+        <div class="options-row">
+          <!-- Deck Options styled as "Glass Chips" -->
+          <button class="deck-chip" [class.active]="selectedDecks === 4" (click)="selectDecks(4)">
+            4
+          </button>
+          <button class="deck-chip" [class.active]="selectedDecks === 6" (click)="selectDecks(6)">
+            6
+          </button>
+          <button class="deck-chip" [class.active]="selectedDecks === 8" (click)="selectDecks(8)">
+            8
+          </button>
+        </div>
+      </div>
+
+      <!-- The Big "Play" Button -->
+      <button class="btn-glass btn-hit btn-large" (click)="startGame()">DEAL CARDS</button>
+    </div>
+
+    <!-- 2. BOTTOM LEFT: HOW TO PLAY -->
+    <div class="glass-panel info-panel" (click)="openRules()">
+      <div class="panel-icon">?</div>
+      <h3 class="panel-title">HOW TO PLAY</h3>
+      <span class="glass-label">RULES & PAYOUTS</span>
+    </div>
+
+    <!-- 3. BOTTOM RIGHT: PROFILE -->
+    <div class="glass-panel info-panel" (click)="openProfile()">
+      <div class="panel-icon">👤</div>
+      <h3 class="panel-title">PROFILE</h3>
+      <span class="glass-value-small">$20,500</span>
+    </div>
+  </div>
+</div>
+
+<img src="assets/images/menu.jpg" alt="" />
+
+<button class="gold-btn">
+  <span class="btn-text">PLAY</span>
+  <div class="gloss-layer"></div>
+</button>

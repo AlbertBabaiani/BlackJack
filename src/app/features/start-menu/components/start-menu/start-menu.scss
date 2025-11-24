@@ -1,0 +1,449 @@
+$green: #0f2b1d;
+$greenDark: #020a05;
+$gold-base: #d4af37;
+$gold-highlight: #fdfbd3;
+$gold-shadow: #8a6e2f;
+$panel-bg-top: rgba(20, 20, 20, 0.5);
+$panel-bg-bottom: rgba(0, 0, 0, 0.575);
+
+// Just for context (The green felt background)
+.casino-table {
+  background-color: #0f2b1d;
+  background: radial-gradient(circle at center, #0f2b1d 0%, #020a05 100%);
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dialog-panel {
+  width: 90%;
+  max-width: 40rem;
+  border-radius: var(--radius-xl);
+
+  height: 400px;
+
+  padding: var(--space-8);
+  position: relative;
+
+  background: linear-gradient(135deg, $panel-bg-top 0%, $panel-bg-bottom 100%);
+
+  backdrop-filter: blur(10px);
+
+  border: 1px solid $gold-shadow;
+
+  box-shadow: 
+    // Layer 1: Deep Inner shadow (creates the 'concave' or deep glass look)
+    inset 0 0 40px rgba(0, 0, 0, 0.9),
+    // Layer 2: Subtle Inner Gold Glow (reflects on the inner edge)
+    inset 0 0 10px rgba($gold-base, 0.2),
+    // Layer 3: Outer Gold Glow (The diffuse light outside the border)
+    0 0 15px rgba($gold-base, 0.4),
+    // Layer 4: Heavy Drop Shadow (separates modal from table)
+    0 10px 30px rgba(0, 0, 0, 0.8);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40%; // Covers top 40%
+    border-radius: 12px 12px 50% 50% / 12px 12px 20% 20%; // Curved bottom
+
+    // Fade from subtle white to transparent
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.07) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    pointer-events: none; // Let clicks pass through
+  }
+}
+
+// Bonus: The Title Typography
+.dialog-title {
+  font-family: 'Cinzel', serif; // Or any classy serif font
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 2px;
+  margin-top: 0;
+
+  // The Gold Text Gradient & Shadow
+  color: $gold-highlight;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 1), 0 0 10px rgba($gold-base, 0.6);
+}
+//
+//
+//
+//
+//
+//
+//
+
+// 1. Luxury Palette
+$gold-light: #fffbd4;
+$gold-mid: #d4af37;
+$gold-dark: #8a6e2f;
+$btn-bg: #0d0d0d;
+
+// Background to visualize the glow (Context only)
+.stage {
+  background: #1a1008;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gold-btn {
+  position: relative;
+  background: linear-gradient(to bottom, lighten($btn-bg, 5%), $btn-bg);
+  border: none; // We draw borders with shadows/gradients instead
+  padding: 1.2rem 4rem;
+  border-radius: 12px;
+  cursor: pointer;
+  overflow: hidden; // Keeps the gloss inside
+  transition: transform 0.1s ease;
+
+  // --- A. THE BORDER & GLOW EFFECTS ---
+  // We use box-shadows to create the "Double Border" and "Outer Glow"
+  box-shadow: 
+    // 1. The inner dark gap (creates depth between border and button)
+    inset 0 0 0 2px rgba(0, 0, 0, 1),
+    // 2. The Inner Gold Ring
+    inset 0 0 0 3px $gold-dark,
+    // 3. The Outer Gold Ring
+    0 0 0 1px $gold-mid,
+    // 4. The "Hot Spot" Glows (Top and Bottom Light)
+    0 -10px 20px -5px rgba($gold-mid, 0.5),
+    // Top glow
+    0 10px 20px -5px rgba($gold-mid, 0.5),
+    // Bottom glow
+    // 5. General Ambient Shadow
+    0 20px 30px rgba(0, 0, 0, 0.8);
+
+  // --- B. THE TEXT STYLING ---
+  .btn-text {
+    font-family: 'Cinzel', serif; // Ideally use a serif font
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    // Metallic Text Gradient
+    background: linear-gradient(to bottom, $gold-light 0%, $gold-mid 50%, $gold-dark 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    // Text Drop Shadow (needs filter because of text-fill-color)
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.8));
+    position: relative;
+    z-index: 2; // Sit above the gloss
+  }
+
+  // --- C. THE INTERACTIVE GLOSS LAYER ---
+  .gloss-layer {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    z-index: 1;
+    pointer-events: none;
+
+    // The "Shine" Gradient: Transparent -> White Reflection -> Transparent
+    background: linear-gradient(
+      115deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.08) 45%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0.08) 55%,
+      transparent 60%
+    );
+
+    // Set initial state
+    transform: rotate(0deg) translate(0, 0);
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  // --- D. INTERACTIONS (Changing the Light Angle) ---
+
+  &:hover {
+    // 1. Slightly lift the button
+    transform: translateY(-2px);
+
+    // 2. Intensify the border glow
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 1), inset 0 0 0 3px $gold-mid,
+      // Brighter inner ring
+      0 0 0 1px $gold-light,
+      // Brighter outer ring
+      0 -15px 30px -5px rgba($gold-mid, 0.8),
+      0 15px 30px -5px rgba($gold-mid, 0.8), 0 25px 40px rgba(0, 0, 0, 1);
+
+    // 3. SWING THE LIGHT ANGLE
+    // We rotate the gloss layer and slide it slightly to mimic tilting the glass
+    .gloss-layer {
+      transform: rotate(15deg) translate(20px, 0);
+      opacity: 1;
+    }
+  }
+
+  &:active {
+    transform: translateY(1px);
+    // Dim the glow slightly on press
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 1), inset 0 0 0 3px $gold-dark, 0 0 0 1px $gold-mid,
+      0 0 15px rgba($gold-mid, 0.3);
+
+    // Snap the light angle sharply on click
+    .gloss-layer {
+      transition: transform 0.1s;
+      transform: rotate(25deg) translate(10px, 0);
+    }
+  }
+
+  // Top/Bottom Edge Highlights (The white rim lighting in image)
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15%;
+    right: 15%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, white, transparent);
+    opacity: 0.5;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+    right: 15%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, white, transparent);
+    opacity: 0.5;
+  }
+}
+
+//
+//
+//
+//
+//
+//
+/* --- Layout & Grid --- */
+.menu-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  padding: 20px;
+  background: radial-gradient(circle at center, #0f2b1d 0%, #020a05 100%);
+  perspective: 1000px; /* Essential for 3D buttons */
+}
+
+.game-title {
+  font-family: 'Cinzel', serif;
+  font-size: 4rem;
+  color: #fff;
+  margin-bottom: 40px;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  letter-spacing: 5px;
+
+  .text-gold {
+    color: transparent;
+    background: linear-gradient(to bottom, #fff 20%, #f1c40f 100%);
+    -webkit-background-clip: text;
+    filter: drop-shadow(0 0 10px rgba(241, 196, 15, 0.5));
+  }
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 25px;
+  width: 100%;
+  max-width: 800px;
+}
+
+/* --- 1. Top Panel (Start Game) --- */
+.start-panel {
+  grid-column: 1 / -1;
+  flex-direction: column;
+  gap: 30px;
+  padding: 50px;
+  transition: transform 0.3s ease, border-color 0.3s;
+}
+
+.panel-header {
+  text-align: center;
+}
+
+/* --- Deck Selector Chips --- */
+.deck-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.options-row {
+  display: flex;
+  gap: 20px;
+}
+
+.deck-chip {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: #8f9a94;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  &.active {
+    border-color: #f1c40f;
+    color: #fff;
+    background: radial-gradient(circle at 30% 30%, rgba(241, 196, 15, 0.4), rgba(0, 0, 0, 0.8));
+    box-shadow: 0 0 15px rgba(241, 196, 15, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    text-shadow: 0 0 5px #f1c40f;
+    transform: scale(1.1);
+  }
+}
+
+/* --- 2. Bottom Panels (Rules & Profile) --- */
+.info-panel {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 200px;
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: rgba(212, 175, 55, 0.8);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(212, 175, 55, 0.1);
+
+    .panel-icon {
+      color: #f1c40f;
+      transform: scale(1.1);
+      text-shadow: 0 0 15px rgba(241, 196, 15, 0.6);
+    }
+  }
+}
+
+.panel-icon {
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.2);
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.panel-title {
+  font-family: 'Cinzel', serif;
+  color: #fff;
+  font-size: 1.2rem;
+  margin: 0 0 5px 0;
+  letter-spacing: 2px;
+}
+
+.glass-value-small {
+  font-family: 'Roboto Mono', monospace;
+  color: #4cd137;
+  font-size: 1.1rem;
+  text-shadow: 0 0 5px rgba(76, 209, 55, 0.4);
+}
+
+/* =========================================
+   MISSING BUTTON STYLES (Added Here)
+========================================= */
+
+/* Shared Glass Button Base */
+.btn-glass {
+  position: relative;
+  border-radius: 12px;
+  cursor: pointer;
+
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fff;
+
+  /* 3D Tilt Setup */
+  transform: rotateX(20deg) translateZ(0);
+  transform-style: preserve-3d;
+  transition: transform 0.15s cubic-bezier(0.3, 1, 0.4, 1), box-shadow 0.15s;
+
+  /* Gold Border */
+  border: 1px solid rgba(212, 175, 55, 0.5);
+
+  /* Inner shine */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 10px 20px rgba(0, 0, 0, 0.5);
+
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Glass Reflection Top */
+.btn-glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  border-radius: 10px 10px 0 0;
+  pointer-events: none;
+}
+
+/* DEAL CARDS Button (Hit Variant) */
+.btn-hit {
+  background: linear-gradient(180deg, #1e5d38 0%, #0a2916 100%); /* Emerald */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 6px 0 #051a0e,
+    /* Dark Side Thickness */ 0 15px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Size Modifier for Main Menu */
+.btn-large {
+  width: 100%;
+  max-width: 400px;
+  height: 80px;
+  font-size: 1.5rem;
+  margin-top: 20px;
+}
+
+/* Hover Effects */
+.btn-glass:hover {
+  transform: rotateX(20deg) translateZ(5px); /* Lifts up */
+  filter: brightness(1.2);
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2), 0 10px 0 #000, 0 30px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Active/Click Effects */
+.btn-glass:active {
+  transform: rotateX(20deg) translateZ(-2px); /* Pushes down */
+  filter: brightness(0.9);
+  box-shadow: 0 2px 0 #051a0e, 0 5px 10px rgba(0, 0, 0, 0.6);
+}

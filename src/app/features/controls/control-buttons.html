@@ -1,0 +1,121 @@
+<section class="control-panel">
+  <button class="btn-3d btn-stand" type="button" (click)="stand()">Stand</button>
+  <button class="btn-3d btn-special" type="button">Split</button>
+  <button class="btn-3d btn-special" type="button" (click)="double()">Double</button>
+  <button class="btn-3d btn-hit" type="button" (click)="hit()">Hit</button>
+</section>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern Casino HUD</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Roboto+Mono:wght@500&display=swap');
+
+      body {
+        background-color: #2c3e50;
+        /* Simulated Table Surface for preview */
+        background-image: radial-gradient(circle at center, #0f3d28 0%, #052115 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      /* --- THE HUD CONTAINER --- */
+      .hud-panel {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        /* Glass Effect */
+        background: rgba(0, 0, 0, 0.6); /* Dark transparent background */
+        backdrop-filter: blur(10px); /* Blurs the table behind it */
+        -webkit-backdrop-filter: blur(10px);
+
+        /* Shape & Size */
+        padding: 15px 40px;
+        border-radius: 16px;
+        min-width: 350px;
+
+        /* The Gold Border */
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-bottom: 2px solid rgba(212, 175, 55, 0.6); /* Thicker bottom for weight */
+
+        /* Shadow for depth */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+          /* Deep shadow */ inset 0 1px 1px rgba(255, 255, 255, 0.1); /* Top inner shine */
+      }
+
+      /* --- SECTIONS (Balance & Bid) --- */
+      .hud-section {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Align text to left */
+        gap: 4px;
+        position: relative;
+        padding: 0 20px;
+      }
+
+      /* Vertical Divider Line */
+      .hud-divider {
+        width: 1px;
+        height: 40px;
+        background: linear-gradient(to bottom, transparent, rgba(212, 175, 55, 0.5), transparent);
+      }
+
+      /* --- TYPOGRAPHY --- */
+
+      /* The Label (e.g., "Balance") */
+      .hud-label {
+        font-family: 'Cinzel', serif; /* Classy Casino Font */
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #a8a8a8; /* Muted silver/grey */
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+      }
+
+      /* The Value (e.g., "$20,500") */
+      .hud-value {
+        font-family: 'Roboto Mono', monospace; /* Monospaced for numbers aligns better */
+        font-size: 24px;
+        font-weight: 500;
+        color: #fff;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Subtle neon glow */
+
+        /* Gold Gradient Text Effect (Optional, remove for pure white) */
+        background: linear-gradient(to bottom, #fff 40%, #f1c40f 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* --- Variant for BID (Make it stand out differently) --- */
+      .hud-value.bid-active {
+        /* If bid is active, maybe make it slightly more golden */
+        text-shadow: 0 0 15px rgba(241, 196, 15, 0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hud-panel">
+      <!-- Balance Section -->
+      <div class="hud-section">
+        <span class="hud-label">Balance</span>
+        <span class="hud-value">$20,500</span>
+      </div>
+
+      <!-- Divider -->
+      <div class="hud-divider"></div>
+
+      <!-- Bid Section -->
+      <div class="hud-section">
+        <span class="hud-label">Current Bid</span>
+        <span class="hud-value bid-active">$1,000</span>
+      </div>
+    </div>
+  </body>
+</html>
