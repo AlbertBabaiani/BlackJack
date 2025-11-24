@@ -15,11 +15,10 @@ export class Main {
   playerCards = this.service.playerCards;
   dealerCards = this.service.dealerCards;
 
-  playerSum = this.service.playerSum;
-  dealerSum = this.service.displayedDealerSum;
+  playerSum = this.service.playerScore;
+  dealerSum = this.service.displayedDealerScore;
 
-  isAcePresent = this.service.isAce;
-  gameStarted = this.service.gameStarted;
+  // isAcePresent = this.service.isAce;
 
   private smallGapPx: number = 48;
   private smallGapRem: number = 3;
@@ -42,5 +41,9 @@ export class Main {
     if (cards.length < this.columnBreakPoint) return (cards.length - 2) * this.bigGapRem + 18;
 
     return (cards.length - 2) * this.smallGapRem + this.smallInitialRem;
+  }
+
+  calculateDelay(index: number) {
+    return (index === 1 ? 1 : 0) / 3;
   }
 }

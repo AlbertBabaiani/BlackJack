@@ -6,128 +6,60 @@ import { GameResult } from '../../shared/models/GameResult';
   providedIn: 'root',
 })
 export class CardStates {
-  private _gameStarted = signal<boolean>(true);
-  readonly gameStarted = this._gameStarted.asReadonly();
-
   private _playerCards = signal<Card[]>([]);
   readonly playerCards = this._playerCards.asReadonly();
-  readonly playerSum = computed(() =>
-    this._playerCards().reduce((prev, next) => prev + next.value, 0)
-  );
+  readonly playerScore = computed(() => this.calculateHandScore(this._playerCards()));
 
   private _dealerCards = signal<Card[]>([]);
   readonly dealerCards = this._dealerCards.asReadonly();
-  readonly dealerSum = computed(() =>
-    this._dealerCards().reduce((prev, next) => prev + next.value, 0)
-  );
-  readonly displayedDealerSum = computed(() =>
-    this.gameStarted()
-      ? this._dealerCards()[0].value
-      : this._dealerCards().reduce((prev, next) => prev + next.value, 0)
-  );
+  readonly dealerScore = computed(() => this.calculateHandScore(this._dealerCards()));
 
-  private shuffleTime = 2000;
+  private _showDealerScore = signal<boolean>(false);
+  readonly displayedDealerScore = computed(() => {
+    if (!this._showDealerScore()) {
+      return this._dealerCards().length > 0 ? this.calculateHandScore([this._dealerCards()[0]]) : 0;
+    }
+    return this.dealerScore();
+  });
 
-  private _isAce = signal<boolean>(false);
-  readonly isAce = this._isAce.asReadonly();
+  private calculateHandScore(cards: Card[]): number {
+    let score = 0;
+    let aceCount = 0;
 
-  delay(ms: number = this.shuffleTime) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
-  setGameStarted(): void {
-    this._gameStarted.set(false);
-  }
-
-  setInitialCards(cards: Card[]): GameResult | null {
-    if (cards.length < 4) return null;
-
-    const playerAce1 = this.checkAce(cards[0]);
-    const playerAce2 = this.checkAce(cards[2]);
-    if (playerAce1 && playerAce2) cards[2].setAce1();
-    else {
-      if (playerAce2) this._isAce.set(true);
+    for (const card of cards) {
+      score += card.value;
+      if (card.rank === 'A') aceCount++;
     }
 
-    const dealerAce1 = this.checkAce(cards[1]);
-    const dealerAce2 = this.checkAce(cards[3]);
-    if (dealerAce1 && dealerAce2) cards[3].setAce1();
-
-    this._playerCards.set([cards[0], cards[2]]);
-    this._dealerCards.set([cards[1], cards[3]]);
-    return this.checkInitialCards([cards[0], cards[2]], [cards[1], cards[3]]);
-  }
-
-  private checkInitialCards(playerCards: Card[], dealerCards: Card[]): GameResult | null {
-    const dealerSum = dealerCards.reduce((prev, next) => prev + next.value, 0);
-
-    if (dealerSum === 21) {
-      this._gameStarted.set(false);
-      return GameResult.Lose;
+    while (score > 21 && aceCount > 0) {
+      score -= 10;
+      aceCount--;
     }
 
-    const playerSum = playerCards.reduce((prev, next) => prev + next.value, 0);
-
-    if (playerSum === 21) {
-      this.setGameStarted();
-      return GameResult.BlackJack;
-    }
-
-    return null;
+    return score;
   }
 
-  private checkAce(card: Card): boolean {
-    return card.rank === 'A' && card.value === 11;
+  setInitialCards(playerCards: Card[], dealerCards: Card[]) {
+    this._playerCards.set(playerCards);
+    this._dealerCards.set(dealerCards);
+    this._showDealerScore.set(false);
   }
 
-  private processAce(card: Card) {
-    if (card.value + this.playerSum() > 21 && this.checkAce(card)) {
-      card.setAce1();
-    }
-    //
-    else if (this._isAce()) {
-      const playerCards = this._playerCards();
-      playerCards[playerCards.length - 1].setAce1();
-      this._playerCards.set(playerCards);
-      this._isAce.set(false);
-    }
+  addPlayerCard(card: Card) {
+    this._playerCards.update((cards) => [...cards, card]);
   }
 
-  addPlayerCard(card: Card): GameResult | null {
-    this.processAce(card);
-
-    if (this.checkAce(card)) {
-      this._isAce.set(true);
-    }
-
-    this._playerCards.update((arr) => [...arr, card]);
-
-    return this.playerSum() > 21 ? GameResult.Lose : null;
+  addDealerCard(card: Card) {
+    this._dealerCards.update((cards) => [...cards, card]);
   }
 
-  addDealerCard(card: Card): GameResult | null {
-    this._gameStarted.set(false);
-    if (this.checkAce(card)) {
-      card.setAce1();
-    }
-
-    this._dealerCards.update((arr) => [...arr, card]);
-
-    return this.dealerSum() > 21 ? GameResult.Win : null;
+  revealDealer() {
+    this._showDealerScore.set(true);
   }
 
-  double(card: Card): GameResult {
-    this.processAce(card);
-
-    this._playerCards.update((arr) => [...arr, card]);
-
-    return this.playerSum() > 21 ? GameResult.Lose : GameResult.Win;
-  }
-
-  resetCards() {
+  reset() {
     this._playerCards.set([]);
     this._dealerCards.set([]);
-    this._isAce.set(false);
-    this._gameStarted.set(true);
+    this._showDealerScore.set(false);
   }
 }

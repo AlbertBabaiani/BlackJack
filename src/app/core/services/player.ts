@@ -4,7 +4,7 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class Player {
-  private startingMoney: number = 20000;
+  private readonly startingMoney = 20000;
 
   private _money = signal<number>(this.startingMoney);
   readonly money = this._money.asReadonly();
@@ -12,52 +12,31 @@ export class Player {
   private _bid = signal<number>(0);
   readonly bid = this._bid.asReadonly();
 
-  private subtract(amount: number) {
-    if (amount > this._money()) return;
-
-    this._money.update((val) => val - amount);
-  }
-
-  private add(amount: number) {
-    if (amount < 0) return;
-
-    this._money.update((val) => val + amount);
-  }
-
-  placeBid(bid: number): void {
-    this._bid.set(bid);
-    this.subtract(bid);
-  }
-
-  doubleBid() {
-    if (this._money() - this._bid() < 0) return false;
-
-    this.subtract(this._bid());
-    this._bid.update((bid) => bid * 2);
+  placeBid(amount: number): boolean {
+    if (amount > this._money()) return false;
+    this._bid.set(amount);
+    this._money.update((m) => m - amount);
     return true;
   }
 
-  removeDoubled() {
-    this._bid.update((val) => val / 2);
+  doubleBid(): boolean {
+    const currentBid = this._bid();
+    if (this._money() < currentBid) return false;
+
+    this._money.update((m) => m - currentBid);
+    this._bid.update((b) => b * 2);
+    return true;
   }
 
-  win(): void {
-    this.add(this._bid() * 2);
+  payout(amount: number) {
+    this._money.update((m) => m + amount);
   }
 
-  push(): void {
-    this.add(this._bid());
-  }
-
-  blackJack(): void {
-    this.add(this._bid() * 1.5);
-  }
-
-  resetBid(): void {
+  resetBid() {
     this._bid.set(0);
   }
 
-  resetMoney(): void {
+  resetMoney() {
     this._money.set(this.startingMoney);
   }
 }

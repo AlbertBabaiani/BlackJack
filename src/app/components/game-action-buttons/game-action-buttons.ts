@@ -8,17 +8,17 @@ import { CoreService } from '../../core/services/core-service';
   styleUrl: './game-action-buttons.scss',
 })
 export class GameActionButtons {
-  private coreService = inject(CoreService);
+  private service = inject(CoreService);
 
   hit(): void {
-    this.coreService.playerHit();
+    this.service.playerHit();
   }
 
   stand(): void {
-    this.coreService.stand();
+    this.service.playerStand();
   }
 
   double(): void {
-    this.coreService.double();
+    this.service.double();
   }
 }

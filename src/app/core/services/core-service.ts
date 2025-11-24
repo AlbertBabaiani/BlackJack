@@ -11,8 +11,8 @@ import { GameMessageService } from './game-message-service';
   providedIn: 'root',
 })
 export class CoreService {
-  private deckService = inject(Deck);
-  cards = this.deckService.cards;
+  private deck = inject(Deck);
+  cards = this.deck.cards;
 
   private gameState = inject(GameState);
   private cardStates = inject(CardStates);
@@ -21,143 +21,133 @@ export class CoreService {
 
   private controlsBlocked = signal<boolean>(false);
 
-  private gameTimeOut = 3000;
-
   initGame() {
     this.gameState.initGame();
   }
 
-  startGame() {
-    if (this.controlsBlocked()) return;
-    if (this.player.money() < 0 || this.player.bid() <= 0) return;
+  async startGame() {
+    if (this.controlsBlocked() || this.player.bid() <= 0) return;
 
     this.gameState.startGame();
+    this.cardStates.reset();
+    this.controlsBlocked.set(false);
 
-    const cards = this.deckService.drawFromShoe(4);
+    const cards = this.deck.drawFromShoe(4);
 
-    const initialResult = this.cardStates.setInitialCards(cards);
-    // const initialResult = this.cardStates.setInitialCards([
-    //   new Card('Hearts', '10', 10),
-    //   new Card('Hearts', '10', 10),
-    //   new Card('Hearts', 'A', 11),
-    //   new Card('Hearts', '9', 9),
-    // ]);
+    this.cardStates.setInitialCards([cards[0], cards[2]], [cards[1], cards[3]]);
 
-    if (initialResult === GameResult.BlackJack || initialResult === GameResult.Lose) {
-      this.endGame(initialResult);
+    await this.checkInitialBlackjack();
+  }
+
+  private async checkInitialBlackjack() {
+    const pScore = this.cardStates.playerScore();
+    const dScore = this.cardStates.dealerScore();
+
+    if (pScore === 21) {
+      if (dScore === 21) {
+        this.endRound(GameResult.Push);
+      } else {
+        this.endRound(GameResult.BlackJack);
+      }
+    } else if (dScore === 21) {
+      this.cardStates.revealDealer();
+      this.endRound(GameResult.Lose);
     }
   }
 
   playerHit() {
     if (this.controlsBlocked()) return;
-    if (this.cardStates.playerSum() >= 21) this.endGame(GameResult.Lose);
 
-    const card = this.deckService.drawFromShoe(1);
+    const [card] = this.deck.drawFromShoe(1);
+    this.cardStates.addPlayerCard(card);
 
-    if (card.length < 1) return;
-
-    const moveResult = this.cardStates.addPlayerCard(card[0]);
-    // const moveResult = this.cardStates.addPlayerCard(new Card('Diamonds', 'A', 11));
-
-    if (moveResult === GameResult.Lose) {
-      this.endGame(moveResult);
+    if (this.cardStates.playerScore() > 21) {
+      this.endRound(GameResult.Lose);
     }
 
-    if (this.cardStates.playerSum() === 21) {
-      this.stand();
-    }
+    // if (this.cardStates.playerSum() === 21) {
+    //   this.stand();
+    // }
   }
 
-  double(): void {
+  playerStand() {
+    if (this.controlsBlocked()) return;
+    this.runDealerTurn();
+  }
+
+  double() {
     if (this.controlsBlocked()) return;
 
-    const response = this.player.doubleBid();
-    if (!response) return;
+    if (!this.player.doubleBid()) return;
 
-    const card = this.deckService.drawFromShoe(1);
-    if (card.length < 1) return;
+    const [card] = this.deck.drawFromShoe(1);
+    this.cardStates.addPlayerCard(card);
 
-    const moveResult = this.cardStates.double(card[0]);
-    // const moveResult = this.cardStates.double(new Card('Clubs', '6', 6));
-
-    if (moveResult === GameResult.Lose) {
-      this.endGame(moveResult, true);
+    if (this.cardStates.playerScore() > 21) {
+      this.endRound(GameResult.Lose);
     } else {
-      this.stand();
+      this.runDealerTurn();
     }
   }
 
-  private dealerHit(): GameResult | null {
-    const playerSum = this.cardStates.playerSum;
-    const dealerSum = this.cardStates.dealerSum;
+  private async runDealerTurn() {
+    this.controlsBlocked.set(true);
+    this.cardStates.revealDealer();
 
-    // while ((dealerSum() < playerSum() || dealerSum() <= 16) && dealerSum() <= 21) {
-    while ((dealerSum() <= playerSum() || dealerSum() <= 16) && dealerSum() < 21) {
-      const card = this.deckService.drawFromShoe(1);
+    await this.delay(600);
 
-      if (card.length < 1) return null;
-
-      const moveResult = this.cardStates.addDealerCard(card[0]);
-
-      if (moveResult === GameResult.Win) {
-        return GameResult.Win;
-      }
+    while (this.cardStates.dealerScore() < 17) {
+      const [card] = this.deck.drawFromShoe(1);
+      this.cardStates.addDealerCard(card);
+      await this.delay(800);
     }
 
-    return GameResult.Lose;
+    this.determineWinner();
   }
 
-  stand(): void {
-    if (this.controlsBlocked()) return;
-    this.controlsBlocked.set(true);
-    const playerSum = this.cardStates.playerSum;
-    const dealerSum = this.cardStates.dealerSum;
+  private determineWinner() {
+    const pScore = this.cardStates.playerScore();
+    const dScore = this.cardStates.dealerScore();
 
-    this.controlsBlocked.set(true);
-
-    if (dealerSum() <= 16) {
-      const moveResult = this.dealerHit();
-
-      if (moveResult === GameResult.Win) {
-        this.endGame(GameResult.Win);
-        return;
-      }
-    }
-
-    if (playerSum() > dealerSum()) {
-      this.endGame(GameResult.Win);
-    } else if (playerSum() < dealerSum()) {
-      this.endGame(GameResult.Lose);
+    if (dScore > 21) {
+      this.endRound(GameResult.Win); // Dealer busted
+    } else if (pScore > dScore) {
+      this.endRound(GameResult.Win);
+    } else if (pScore < dScore) {
+      this.endRound(GameResult.Lose);
     } else {
-      this.endGame(GameResult.Push);
+      this.endRound(GameResult.Push);
     }
-    this.cardStates.setGameStarted();
   }
 
-  private endGame(result: GameResult, doubled?: boolean): void {
+  private endRound(result: GameResult): void {
     this.controlsBlocked.set(true);
 
-    if (result === GameResult.Lose) {
-      this.message.setMessage(result, this.player.bid());
-    } else if (result === GameResult.Push) {
-      this.player.push();
-      this.message.setMessage(result, this.player.bid());
-    } else if (result === GameResult.BlackJack) {
-      this.message.setMessage(result, this.player.bid() * 1.5);
-      this.player.blackJack();
-    } else if (result === GameResult.Win) {
-      this.player.win();
-      this.message.setMessage(result, this.player.bid() * 2);
+    const bid = this.player.bid();
+    switch (result) {
+      case GameResult.Win:
+        this.player.payout(bid * 2);
+        break;
+      case GameResult.BlackJack:
+        this.player.payout(bid + bid * 1.5);
+        break;
+      case GameResult.Push:
+        this.player.payout(bid);
+        break;
     }
+
+    this.message.setMessage(result, bid);
 
     setTimeout(() => {
       this.message.clearMessage();
       this.player.resetBid();
-      this.cardStates.resetCards();
-      this.controlsBlocked.set(false);
-
-      if (doubled) this.player.removeDoubled();
+      this.cardStates.reset();
       this.gameState.initGame();
-    }, this.gameTimeOut);
+      this.controlsBlocked.set(false);
+    }, 3000);
+  }
+
+  private delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }

@@ -1,5 +1,6 @@
 <article class="card-object">
-  <div class="card" [class.is-flipped]="isFlipped()">
+  <!-- <div class="card" [class.is-flipped]="isFlipped()" [style.--delay]="delay()"> -->
+  <div class="card" [style.--delay]="delay()">
     <div class="card-face face-front">
       <img
         [src]="'/assets/images/cards/' + rank() + '_of_' + suits() + '.png'"

@@ -1,12 +1,11 @@
-.card-object {
-  width: 14rem;
-  aspect-ratio: 2.5 / 3.5;
-  padding: var(--space-2);
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-  background: rgb(228, 190, 109);
+$delay: 1s;
+$cardWidth: 13rem;
+$cardHeight: 18rem;
 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.1);
+.card-object {
+  width: $cardWidth;
+  height: $cardHeight;
+  perspective: 1000px;
 }
 
 .card {
@@ -14,11 +13,15 @@
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 6px rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-xl);
 
-  // animation: dealCard 0.8s ease-out backwards;
+  animation: cardFlipping $delay ease-out calc(var(--delay) * $delay) forwards;
+
+  transform: rotateY(180deg);
 
   &.is-flipped {
-    transform: rotateY(180deg);
+    transform: rotateY(0deg);
   }
 
   &-face {
@@ -66,13 +69,14 @@
   }
 }
 
-@keyframes dealCard {
-  0% {
-    opacity: 0;
-    transform: translateY(-50px) rotateY(180deg) scale(0.8);
+@keyframes cardFlipping {
+  30% {
+    transform: rotateY(180deg) scale(1);
+  }
+  70% {
+    transform: rotateY(90deg) scale(1.15);
   }
   100% {
-    opacity: 1;
-    transform: translateY(0) rotateY(0deg) scale(1);
+    transform: rotateY(0deg) scale(1);
   }
 }

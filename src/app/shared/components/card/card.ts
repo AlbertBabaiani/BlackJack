@@ -12,4 +12,5 @@ export class Card {
   rank = input.required({ transform: (val: Ranks) => val.toLowerCase() });
 
   isFlipped = input.required<boolean>();
+  delay = input.required<number>();
 }

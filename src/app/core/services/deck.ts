@@ -28,37 +28,34 @@ export class Deck {
   private deckQuantity: number = 6;
 
   private getCardValue(rank: string): Values {
-    if (rank === 'A') {
-      return 11;
-    }
+    if (rank === 'A') return 11;
 
-    if (['K', 'Q', 'J'].includes(rank)) {
-      return 10;
-    }
+    if (['K', 'Q', 'J'].includes(rank)) return 10;
 
     return parseInt(rank, 10) as Values;
   }
 
-  createDeck(deckQuantity: number = this.deckQuantity) {
-    this.Suits.forEach((suit) => {
-      this.Ranks.forEach((rank) => {
-        const value = this.getCardValue(rank);
+  createDeck(quantity: number = this.deckQuantity) {
+    let newShoe: Card[] = [];
 
-        for (let i = 0; i < deckQuantity; i++) {
-          const card = new Card(suit, rank, value);
-          this._cards.update((arr) => [...arr, card]);
-        }
+    for (let i = 0; i < quantity; i++) {
+      this.Suits.forEach((suit) => {
+        this.Ranks.forEach((rank) => {
+          newShoe.push(new Card(suit, rank, this.getCardValue(rank)));
+        });
       });
-    });
+    }
 
-    this.shuffle();
+    this._cards.set(this.shuffle(newShoe));
   }
 
-  private shuffle(): void {
-    for (let i = this._cards().length - 1; i > 0; i--) {
+  private shuffle(deck: Card[]): Card[] {
+    const newDeck = [...deck];
+    for (let i = newDeck.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [this._cards()[i], this._cards()[j]] = [this._cards()[j], this._cards()[i]];
+      [newDeck[i], newDeck[j]] = [newDeck[j], newDeck[i]];
     }
+    return newDeck;
   }
 
   drawFromShoe(quantity: number): Card[] {
@@ -73,7 +70,6 @@ export class Deck {
     const remainingShoe = currentShoe.slice(quantity);
 
     this._cards.set(remainingShoe);
-
     return dealtCards;
   }
 }
